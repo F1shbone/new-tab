@@ -10,16 +10,22 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 0.75rem;
+    // padding: 0.75rem;
     overflow: hidden;
     box-sizing: border-box;
     z-index: 1;
 
     &--left {
-      flex: 0 0 55rem;
+      flex: 0 0 50rem;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     &--right {
       flex: 0 0 35rem;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
       margin-left: auto;
     }
     // display: grid;
@@ -30,6 +36,12 @@
   }
   &__item {
     padding: 1.5rem;
+    flex: 1 1 auto;
+    overflow: hidden;
+
+    > .card {
+      max-height: 100%;
+    }
   }
 }
 

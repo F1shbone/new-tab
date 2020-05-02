@@ -1,33 +1,82 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Hacker News</h5>
+      <h5 class="card-title hn-title">Hacker News</h5>
     </div>
     <ul class="card-list">
-      <li class="card-list-item">Cras justo odio</li>
-      <li class="card-list-item">Dapibus ac facilisis in</li>
-      <li class="card-list-item">Vestibulum at eros</li>
+      <li class="card-list-item" v-if="loading"></li>
+      <li class="card-list-item" v-for="i in pageSize" :key="i">
+        <a
+          v-if="stories[i - 1]"
+          class="list-item"
+          :href="`https://news.ycombinator.com/item?id=${stories[i - 1].id}`"
+          target="_blank"
+        >
+          <div class="list-item__content">
+            <div class="list-item__title">{{ stories[i - 1].title }}</div>
+            <div class="list-item__subtitle">
+              {{ stories[i - 1].score }} points by {{ stories[i - 1].by }} |
+              Comments:
+              {{ stories[i - 1].descendants }}
+            </div>
+          </div>
+          <div class="list-item__action">
+            <span class="list-item__action-text"
+              >{{ getElapsedTime(stories[i - 1].time) }} hr</span
+            >
+          </div>
+        </a>
+        <div v-else class="list-item">
+          <div class="list-item__content">
+            <skeleton-loader :loading="loading" :width="100" />
+            <skeleton-loader :loading="loading" :width="70" />
+          </div>
+        </div>
+      </li>
     </ul>
-    <div class="card-action">
+    <!-- <div class="card-action">
       <a @click="fetchTopStories">FETCH</a>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import SkeletonLoader from '../SkeletonLoaders';
 
 export default {
+  components: {
+    SkeletonLoader,
+  },
+  computed: {
+    pageSize() {
+      return this.$store.state.hackerNews.display.itemsPerPage;
+    },
+    stories() {
+      return this.$store.getters['hackerNews/pageTopStories'];
+    },
+  },
+  data() {
+    return {
+      loading: true,
+    };
+  },
   methods: {
-    async fetchTopStories() {
-      const ids = await axios.get('/v0/topstories');
-      const stories = await ids.map(id => axios.get(`/v0/item/${id}.json`));
-
-      console.log(stories);
+    getElapsedTime(time) {
+      return new Date(Date.now() - time * 1000).getHours();
+    },
+    fetchStory(id) {
+      return this.$store.dispatch('hackerNews/fetchItem', { id });
+    },
+    fetchTopStories() {
+      return this.$store.dispatch('hackerNews/fetchTopStories');
     },
   },
   mounted() {
-    axios.defaults.baseURL = 'https://hacker-news.firebaseio.com';
+    this.fetchTopStories();
+    window.addEventListener('focus', this.fetchTopStories);
+  },
+  beforeDestroy() {
+    window.removeEventListener('focus', this.fetchTopStories);
   },
 };
 </script>
@@ -66,15 +115,11 @@ export default {
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
+    overflow: scroll;
     &-item {
       position: relative;
       display: block;
-      padding: 0.75rem 1.25rem;
       border-top: 1px solid rgba(160, 160, 160, 0.125);
-
-      // &:last-child {
-      //   border-bottom: 1px solid rgba(160, 160, 160, 0.125);
-      // }
     }
   }
 
@@ -86,14 +131,87 @@ export default {
 
     a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
       cursor: pointer;
-      color: #ffab40;
+      color: #ff6600;
       margin-right: 24px;
       transition: color 0.3s ease;
       text-transform: uppercase;
       &:hover {
-        color: #ffd8a6;
+        color: #ff9900;
       }
     }
   }
+}
+
+.list-item {
+  position: relative;
+  min-height: 3rem;
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+  letter-spacing: normal;
+  transition: background-color 0.25s;
+
+  &:hover {
+    color: inherit;
+    background-color: rgba(160, 160, 160, 0.125);
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    flex-wrap: wrap;
+    flex: 1 1;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    overflow: hidden;
+  }
+
+  &__action {
+    align-items: flex-end;
+    align-self: stretch;
+    justify-content: space-between;
+    white-space: nowrap;
+    flex-direction: column;
+    display: inline-flex;
+    min-width: 1.5rem;
+    margin: 0.75rem 0;
+
+    &-text {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.75rem;
+      //
+    }
+  }
+
+  &__title,
+  &__subtitle {
+    flex: 1 1 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &__title {
+    align-self: center;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  &__subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  > :not(:last-child) {
+    margin-bottom: 2px;
+  }
+}
+
+.hn-title {
+  color: #ff6600;
 }
 </style>

@@ -35,15 +35,24 @@ export default {
 <style lang="scss">
 body {
   margin: 0;
+  overflow: hidden;
 }
+
+*,
+:after,
+:before {
+  box-sizing: inherit;
+}
+
 #app {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
   color: #fff;
-  // margin-top: 60px;
+  max-width: 2560px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
