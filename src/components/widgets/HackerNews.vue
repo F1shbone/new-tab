@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title hn-title">Hacker News</h5>
+      <h5 class="card-title">
+        <a class="hn-title" href="https://news.ycombinator.com" target="_blank"
+          >Hacker News</a
+        >
+      </h5>
     </div>
     <ul class="card-list">
       <li class="card-list-item" v-if="loading"></li>
@@ -86,7 +90,6 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0 1rem 0;
   color: #fff;
   background-color: #393939;
   transition: box-shadow 0.25s;
@@ -213,5 +216,6 @@ export default {
 
 .hn-title {
   color: #ff6600;
+  text-decoration: none;
 }
 </style>

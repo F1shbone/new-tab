@@ -1,7 +1,5 @@
 <template>
-  <div class="clock">
-    {{ this.formatted }}
-  </div>
+  <div class="clock">{{ this.formatted }}</div>
 </template>
 
 <script>
@@ -19,6 +17,7 @@ export default {
   },
   methods: {
     registerClock() {
+      this.time = Date.now();
       this.id = setInterval(() => {
         this.time += this.interval;
       }, this.interval);
