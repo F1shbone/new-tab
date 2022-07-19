@@ -23,7 +23,7 @@ export default {};
     max-width: 100%;
     max-height: 100%;
     height: 100vh;
-    background-image: url('~@/assets/Wallpaper.png');
+    background-image: url('~@/assets/Wallpaper.webp');
     background-size: cover;
     background-position: center;
   }

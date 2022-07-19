@@ -17,7 +17,7 @@ const state = () => ({
     },
     {
       name: 'Bell of Lost Souls',
-      url: 'https://www.belloflostsouls.net',
+      url: 'https://www.belloflostsouls.net/posts',
       // icon: 'chrome://favicon/https://www.belloflostsouls.net',
       icon:
         'https://www.belloflostsouls.net/wp-content/uploads/2018/03/favicon.png',

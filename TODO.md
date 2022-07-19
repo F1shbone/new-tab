@@ -1,0 +1,1 @@
+- Check Tab-activate, it seems the event fires only when clicked into the tab. Activating the tab via the browser does not seam to work
