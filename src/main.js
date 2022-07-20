@@ -1,12 +1,6 @@
-import Vue from 'vue';
-import App from './App.vue';
-import store from './store';
-import i18n from './i18n';
+import { createApp } from "vue";
+import App from "./App.vue";
 
-Vue.config.productionTip = false;
+import "./assets/main.css";
 
-new Vue({
-  store,
-  i18n,
-  render: h => h(App),
-}).$mount('#app');
+createApp(App).mount("#app");
