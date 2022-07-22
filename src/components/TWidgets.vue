@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import THackernews from './THackernews.vue';
 import TWarhammer from './TWarhammer.vue';
 
-const isOpen = ref(undefined);
+const isOpen = ref('hackernews');
 function toggle(sender) {
   if (isOpen.value === sender) {
     isOpen.value = undefined;
@@ -34,6 +34,12 @@ function toggle(sender) {
 <style>
 .widgets > div {
   overflow: hidden;
+}
+.widgets > div:first-child h2 {
+  border-top: 0;
+}
+.widgets > div:last-child h2 {
+  border-bottom: 0;
 }
 .widgets > div.is-expanded {
   flex: 1;

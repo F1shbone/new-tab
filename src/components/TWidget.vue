@@ -1,4 +1,5 @@
 <script setup>
+import { watch } from 'vue';
 import TIcon from './TIcon.vue';
 
 const props = defineProps({
@@ -18,11 +19,19 @@ const props = defineProps({
 const emits = defineEmits(['refresh', 'toggleExpand']);
 
 function toggleExpand() {
-  if (!props.isExpanded) {
-    emits('refresh');
-  }
   emits('toggleExpand');
 }
+
+watch(
+  () => props.isExpanded,
+  (val) => {
+    if (val) {
+      console.log('!!!', val);
+      emits('refresh');
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -46,7 +55,9 @@ function toggleExpand() {
         <t-icon icon="arrow-clockwise" />
       </button>
     </div>
-    <h2 class="px-8 py-6 text-orange-600 card-title">
+    <h2
+      class="px-8 py-6 text-orange-600 border-t border-b border-gray-600 card-title"
+    >
       {{ $props.title }}
     </h2>
     <div
@@ -75,7 +86,7 @@ function toggleExpand() {
 </template>
 
 <style>
-.widget-items div > a {
+.widget-items div > * {
   @apply px-8;
   @apply py-3;
   @apply border-t;
@@ -97,7 +108,7 @@ function toggleExpand() {
   margin-top: -10px;
   margin-left: -10px;
   border-radius: 50%;
-  border: 2px solid #f90;
+  border: 2px solid #ea580c;
   border-top-color: #000;
   animation: spinner 0.8s linear infinite;
 }
