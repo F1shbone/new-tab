@@ -2,19 +2,23 @@
 import { computed } from 'vue';
 import { useBackgroundImage } from './Settings/useBackgroundImage';
 
+import TWallpaperDefault from './TWallpaperDefault.vue';
+
 const wallpaper = useBackgroundImage();
 const dataURL = computed(() => {
   return wallpaper.value.images.find((e) => e.name === wallpaper.value.active)
-    .dataURL;
+    ?.dataURL;
 });
 </script>
 
 <template>
   <div class="wallpaper__container">
     <div
+      v-if="dataURL"
       class="wallpaper__image"
       :style="`background-image: url(${dataURL})`"
     />
+    <t-wallpaper-default v-else />
   </div>
 </template>
 

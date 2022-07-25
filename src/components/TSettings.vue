@@ -29,7 +29,7 @@ const items = ref([
 
 <template>
   <div class="flex settings">
-    <aside class="relative pl-6 menu basis-3/12">
+    <aside class="relative pl-6 mt-3 menu basis-3/12">
       <!-- active indicator -->
       <div
         class="absolute top-0 left-0 w-1 h-12 transition-transform rounded-b-sm rounded-r-sm menu-indicator"

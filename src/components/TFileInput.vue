@@ -47,7 +47,7 @@ function onInput() {
   />
   <button
     @click="onClick"
-    class="relative flex flex-col items-center p-3 mx-auto transition-colors w-42 rounded-xl hover:bg-base-300"
+    class="relative flex flex-col items-center p-3 mx-auto transition-colors w-42 rounded-xl hover:bg-base-200"
   >
     <div
       class="flex flex-col items-center justify-center p-6 pb-3 border-2 border-gray-600 w-36 h-36 rounded-xl"
