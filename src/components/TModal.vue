@@ -33,11 +33,11 @@ onClickOutside(target, () => {
       >
         ✕
       </button>
-      <h3 class="p-6 text-lg font-bold">
+      <h3 class="p-6 text-2xl font-bold">
         <slot name="title" />
       </h3>
       <div
-        class="py-4"
+        class="pb-4"
         :class="{
           'px-6 pb-6': !flush,
         }"

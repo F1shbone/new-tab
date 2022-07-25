@@ -1,6 +1,20 @@
+<script setup>
+import { computed } from 'vue';
+import { useBackgroundImage } from './Settings/useBackgroundImage';
+
+const wallpaper = useBackgroundImage();
+const dataURL = computed(() => {
+  return wallpaper.value.images.find((e) => e.name === wallpaper.value.active)
+    .dataURL;
+});
+</script>
+
 <template>
   <div class="wallpaper__container">
-    <div class="wallpaper__image" />
+    <div
+      class="wallpaper__image"
+      :style="`background-image: url(${dataURL})`"
+    />
   </div>
 </template>
 
@@ -18,7 +32,6 @@
   max-width: 100%;
   max-height: 100%;
   height: 100vh;
-  background-image: url('/Wallpaper.webp');
   background-size: cover;
   background-position: center;
 }

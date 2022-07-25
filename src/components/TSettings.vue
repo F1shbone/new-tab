@@ -2,9 +2,9 @@
 import { ref, shallowRef, computed } from 'vue';
 import TIcon from './TIcon.vue';
 
-import VBackgroundImage from './Settings/VBackgroundImage.vue';
-import VBookmarks from './Settings/VBookmarks.vue';
-import VClock from './Settings/VClock.vue';
+import TBackgroundImage from './Settings/TBackgroundImage.vue';
+import TBookmarks from './Settings/TBookmarks.vue';
+import TClock from './Settings/TClock.vue';
 
 const active = ref(0);
 const offset = computed(() => 48 * active.value);
@@ -12,23 +12,23 @@ const items = ref([
   {
     name: 'Background Image',
     icon: 'card-image',
-    to: shallowRef(VBackgroundImage),
+    to: shallowRef(TBackgroundImage),
   },
   {
     name: 'Bookmarks',
     icon: 'bookmarks',
-    to: shallowRef(VBookmarks),
+    to: shallowRef(TBookmarks),
   },
   {
     name: 'Clock',
     icon: 'clock',
-    to: shallowRef(VClock),
+    to: shallowRef(TClock),
   },
 ]);
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex settings">
     <aside class="relative pl-6 menu basis-3/12">
       <!-- active indicator -->
       <div
@@ -53,14 +53,14 @@ const items = ref([
         >
       </button>
     </aside>
-    <div class="py-3 ml-3 mr-6 basis-9/12">
+    <div class="py-3 ml-3 mr-6 overflow-y-auto basis-9/12 max-h-96">
       <component :is="items[active].to" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.menu {
+.settings {
   --orange: rgb(251, 84, 43);
   --magenta: rgb(202, 59, 178);
   --gradient: linear-gradient(
@@ -68,6 +68,7 @@ const items = ref([
     var(--orange) -3.53%,
     var(--magenta) 110.11%
   );
+  height: 25.5rem;
 }
 .menu-indicator {
   background: var(--gradient);

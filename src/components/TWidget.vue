@@ -1,6 +1,7 @@
 <script setup>
 import { watch } from 'vue';
 import TIcon from './TIcon.vue';
+import TLoader from './TLoader.vue';
 
 const props = defineProps({
   title: {
@@ -26,7 +27,6 @@ watch(
   () => props.isExpanded,
   (val) => {
     if (val) {
-      console.log('!!!', val);
       emits('refresh');
     }
   },
@@ -75,12 +75,7 @@ watch(
       >
         <slot />
       </div>
-      <div
-        v-show="isLoading"
-        class="absolute top-0 bottom-0 left-0 right-0 transition-all bg-black/50"
-      >
-        <div class="spinner"></div>
-      </div>
+      <t-loader v-show="isLoading" />
     </div>
   </div>
 </template>
@@ -91,25 +86,5 @@ watch(
   @apply py-3;
   @apply border-t;
   @apply border-gray-600;
-}
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2rem;
-  height: 2rem;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ea580c;
-  border-top-color: #000;
-  animation: spinner 0.8s linear infinite;
 }
 </style>

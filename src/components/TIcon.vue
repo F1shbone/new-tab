@@ -1,11 +1,12 @@
 <script setup>
 import { h, shallowRef, watchEffect } from 'vue';
-import sliders from '../../node_modules/bootstrap-icons/icons/sliders.svg?component';
-import cardImage from '../../node_modules/bootstrap-icons/icons/card-image.svg?component';
-import bookmarks from '../../node_modules/bootstrap-icons/icons/bookmarks.svg?component';
-import clock from '../../node_modules/bootstrap-icons/icons/clock.svg?component';
-import chevronDown from '../../node_modules/bootstrap-icons/icons/chevron-down.svg?component';
 import arrowClockwise from '../../node_modules/bootstrap-icons/icons/arrow-clockwise.svg?component';
+import bookmarks from '../../node_modules/bootstrap-icons/icons/bookmarks.svg?component';
+import cardImage from '../../node_modules/bootstrap-icons/icons/card-image.svg?component';
+import chevronDown from '../../node_modules/bootstrap-icons/icons/chevron-down.svg?component';
+import clock from '../../node_modules/bootstrap-icons/icons/clock.svg?component';
+import sliders from '../../node_modules/bootstrap-icons/icons/sliders.svg?component';
+import upload from '../../node_modules/bootstrap-icons/icons/upload.svg?component';
 
 const props = defineProps({
   icon: {
@@ -27,6 +28,7 @@ watchEffect(async () => {
   if (props.icon === 'chevron-down') svg.value = chevronDown;
   if (props.icon === 'clock') svg.value = clock;
   if (props.icon === 'sliders') svg.value = sliders;
+  if (props.icon === 'upload') svg.value = upload;
 });
 const render = () => {
   if (svg.value) {
