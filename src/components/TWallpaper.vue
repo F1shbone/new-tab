@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useBackgroundImage } from './Settings/useBackgroundImage';
+import { useBackgroundImage } from '../composables/useBackgroundImage';
 
 import TWallpaperDefault from './TWallpaperDefault.vue';
 

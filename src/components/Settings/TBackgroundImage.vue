@@ -1,5 +1,5 @@
 <script setup>
-import { useBackgroundImage } from './useBackgroundImage';
+import { useBackgroundImage } from '../../composables/useBackgroundImage';
 import TFileInput from '../TFileInput.vue';
 import TWallpaperDefault from '../TWallpaperDefault.vue';
 

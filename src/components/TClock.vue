@@ -32,8 +32,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <span class="inline-block text-7xl">
-    <span>{{ hour }}</span
-    >:<span>{{ minute }}</span> <span>{{ am_pm }}</span>
+  <span class="inline-block text-white text-7xl">
+    <span class="text-shadow">{{ hour }}</span>
+    <span class="text-shadow">:</span>
+    <span class="text-shadow">{{ minute }}</span>
+    <span class="text-shadow">{{ am_pm }}</span>
   </span>
 </template>

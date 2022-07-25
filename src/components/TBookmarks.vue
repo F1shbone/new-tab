@@ -46,7 +46,7 @@ const bookmarks = ref([
         <img :src="bookmark.favicon" class="p-4 w-[70px] h-[70px]" />
       </figure>
       <p
-        class="max-w-full pt-4 pb-2 overflow-hidden text-xs text-ellipsis whitespace-nowrap"
+        class="max-w-full pt-4 pb-2 overflow-hidden text-xs text-white text-ellipsis whitespace-nowrap text-shadow"
       >
         {{ bookmark.name }}
       </p>
