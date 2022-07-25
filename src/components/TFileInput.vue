@@ -38,24 +38,26 @@ function onInput() {
 </script>
 
 <template>
-  <input
-    type="file"
-    class="hidden"
-    ref="input"
-    :accept="accept"
-    @input="onInput"
-  />
-  <button
-    @click="onClick"
-    class="relative flex flex-col items-center p-3 mx-auto transition-colors w-42 rounded-xl hover:bg-base-200"
-  >
-    <div
-      class="flex flex-col items-center justify-center p-6 pb-3 border-2 border-gray-600 w-36 h-36 rounded-xl"
+  <div>
+    <input
+      type="file"
+      class="hidden"
+      ref="input"
+      :accept="accept"
+      @input="onInput"
+    />
+    <button
+      @click="onClick"
+      class="relative flex flex-col items-center p-3 transition-colors w-42 rounded-xl hover:bg-base-200"
     >
-      <t-icon icon="upload" class="w-16 h-16" />
-      <span class="mt-3 text-xs">Upload from device</span>
-    </div>
-    <span class="mt-3">Use your own</span>
-    <t-loader v-show="isLoading" class="rounded-xl" />
-  </button>
+      <div
+        class="flex flex-col items-center justify-center p-6 pb-3 border-2 border-gray-500 w-36 h-36 rounded-xl"
+      >
+        <t-icon icon="upload" class="w-16 h-16" />
+        <span class="mt-3 text-xs">Upload from device</span>
+      </div>
+      <span class="mt-3">Use your own</span>
+      <t-loader v-show="isLoading" class="rounded-xl" />
+    </button>
+  </div>
 </template>

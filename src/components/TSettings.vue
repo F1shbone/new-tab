@@ -53,7 +53,7 @@ const items = ref([
         >
       </button>
     </aside>
-    <div class="py-3 ml-3 mr-6 overflow-y-auto basis-9/12 max-h-96">
+    <div class="max-h-full py-3 ml-3 mr-6 overflow-y-auto basis-9/12">
       <component :is="items[active].to" />
     </div>
   </div>
@@ -68,7 +68,7 @@ const items = ref([
     var(--orange) -3.53%,
     var(--magenta) 110.11%
   );
-  height: 25.5rem;
+  height: 32rem;
 }
 .menu-indicator {
   background: var(--gradient);

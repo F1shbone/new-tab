@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { useWidgetState } from '../composables/useWidgetState';
 import THackernews from './THackernews.vue';
 import TWarhammer from './TWarhammer.vue';
 
-const isOpen = ref('hackernews');
+const widgetState = useWidgetState();
 function toggle(sender) {
-  if (isOpen.value === sender) {
-    isOpen.value = undefined;
+  if (widgetState.value.active === sender) {
+    widgetState.value.active = undefined;
   } else {
-    isOpen.value = sender;
+    widgetState.value.active = sender;
   }
 }
 </script>
@@ -17,15 +17,15 @@ function toggle(sender) {
   <div
     class="relative flex flex-col max-h-full overflow-hidden shadow-xl widgets card bg-base-100"
     :class="{
-      'h-full': isOpen !== undefined,
+      'h-full': widgetState.active !== undefined,
     }"
   >
     <t-hackernews
-      :is-expanded="isOpen === 'hackernews'"
+      :is-expanded="widgetState.active === 'hackernews'"
       @toggle-expand="toggle('hackernews')"
     />
     <t-warhammer
-      :is-expanded="isOpen === 'warhammer'"
+      :is-expanded="widgetState.active === 'warhammer'"
       @toggle-expand="toggle('warhammer')"
     />
   </div>

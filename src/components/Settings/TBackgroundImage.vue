@@ -23,15 +23,24 @@ function onRemove(e) {
 
   if (index !== -1) {
     background.value.images.splice(index, 1);
+
+    if (e.name === background.value.active) {
+      background.value.active = 'Default';
+    }
   }
 }
 </script>
 
 <template>
+  <t-file-input
+    accept="image/*"
+    @input="onInput"
+    class="flex justify-center w-1/2 mb-3 text-white"
+  />
+
+  <hr class="mb-6 border border-gray-500" />
+
   <ul class="flex flex-wrap items-center">
-    <li class="w-1/2 mb-4">
-      <t-file-input accept="image/*" @input="onInput" />
-    </li>
     <li
       v-for="image in background.images"
       :key="image.name"
@@ -63,6 +72,7 @@ function onRemove(e) {
           <span class="block text-center">{{ image.name }}</span>
         </button>
         <button
+          v-if="image.dataURL"
           class="absolute top-0 -translate-y-full btn btn-sm btn-circle right-2"
           @click="onRemove(image)"
         >
