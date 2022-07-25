@@ -1,61 +1,98 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, shallowRef, computed } from 'vue';
 import TIcon from './TIcon.vue';
 
-const active = ref('VBookmarks');
+import VBackgroundImage from './Settings/VBackgroundImage.vue';
+import VBookmarks from './Settings/VBookmarks.vue';
+import VClock from './Settings/VClock.vue';
+
+const active = ref(0);
+const offset = computed(() => 48 * active.value);
 const items = ref([
   {
     name: 'Background Image',
     icon: 'card-image',
-    to: 'VBackgroundImage',
+    to: shallowRef(VBackgroundImage),
   },
   {
     name: 'Bookmarks',
     icon: 'bookmarks',
-    to: 'VBookmarks',
+    to: shallowRef(VBookmarks),
   },
   {
     name: 'Clock',
     icon: 'clock',
-    to: 'VClock',
+    to: shallowRef(VClock),
   },
 ]);
 </script>
 
 <template>
   <div class="flex">
-    <ul
-      class="flex-grow flex-shrink-0 font-bold text-white basis-80 menu bg-base-100"
-    >
-      <li
+    <aside class="relative pl-6 menu basis-3/12">
+      <!-- active indicator -->
+      <div
+        class="absolute top-0 left-0 w-1 h-12 transition-transform rounded-b-sm rounded-r-sm menu-indicator"
+        :style="`transform: translateY(${offset}px)`"
+      />
+      <!-- items -->
+      <button
         v-for="(item, i) in items"
         :key="i"
-        :class="{ bordered: active === item.to }"
+        class="flex items-center w-56 h-12 text-left cursor-pointer bg-inherit"
+        :class="{
+          active: active === i,
+        }"
+        @click="active = i"
       >
-        <a class="border-l-4">
-          <t-icon :icon="item.icon" class="mr-4 text-lg" />
-          {{ item.name }}
-        </a>
-      </li>
-    </ul>
-    <div class="py-3 ml-3 mr-6">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam fugiat
-        neque voluptates quasi accusamus, a unde porro iste, tempora earum
-        explicabo similique quod quisquam libero labore sequi, eum in tenetur?
-      </p>
+        <t-icon :icon="item.icon" class="text-lg menu-icon" />
+        <span
+          :data-text="item.name"
+          class="relative ml-4 overflow-hidden font-semibold overflow-ellipsis menu-label"
+          >{{ item.name }}</span
+        >
+      </button>
+    </aside>
+    <div class="py-3 ml-3 mr-6 basis-9/12">
+      <component :is="items[active].to" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.menu :where(:not(li.bordered > *)) {
-  @apply border-transparent;
+.menu {
+  --orange: rgb(251, 84, 43);
+  --magenta: rgb(202, 59, 178);
+  --gradient: linear-gradient(
+    93.83deg,
+    var(--orange) -3.53%,
+    var(--magenta) 110.11%
+  );
 }
-.menu li.bordered a {
-  color: hsl(var(--p) / var(--tw-border-opacity));
+.menu-indicator {
+  background: var(--gradient);
 }
-.menu li.bordered svg {
-  @apply text-white;
+.active .menu-label {
+  --active-opacity: 1;
+  color: var(--magenta);
+}
+.menu-label::after {
+  content: attr(data-text);
+  @apply absolute;
+  @apply top-0;
+  @apply left-0;
+  @apply right-0;
+  @apply bottom-0;
+  @apply block;
+  @apply overflow-ellipsis;
+  @apply inset-0;
+  @apply overflow-hidden;
+  -webkit-text-fill-color: transparent;
+  opacity: var(--active-opacity, 0);
+  background: var(--gradient);
+  background-color: rgb(30, 32, 41);
+  background-size: 100%;
+  @apply bg-repeat;
+  @apply bg-clip-text;
 }
 </style>

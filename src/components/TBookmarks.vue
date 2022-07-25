@@ -21,7 +21,7 @@ const bookmarks = ref([
   },
   {
     name: 'Games Workshop',
-    url: 'ttps://www.games-workshop.com/de-DE/Ziel',
+    url: 'https://www.games-workshop.com/de-DE/Ziel',
     favicon:
       'https://www.games-workshop.com/templates/gw/apple-touch-icon-144x144.png',
   },

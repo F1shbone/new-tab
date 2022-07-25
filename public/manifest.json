@@ -1,12 +1,11 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Brave new Tab",
   "version": "0.1.0",
-  "default_locale": "en",
+  // "default_locale": "en",
   "description": "Replace the default new Tab page of Brave",
   // "icons": {...},
   "chrome_url_overrides": {
     "newtab": "index.html"
-  },
-  "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
+  }
 }
