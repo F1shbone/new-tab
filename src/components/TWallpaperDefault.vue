@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Trianglify from 'trianglify';
-import colorbrewer from 'trianglify/src/utils/colorbrewer';
+import colorbrewer from 'trianglify/colorbrewer';
 
 const props = defineProps({
   width: {
@@ -19,6 +19,7 @@ const canvas = Trianglify({
   cellSize: props.cellSize,
   width: props.width,
   height: props.height,
+  seed: 112345,
   palette: [colorbrewer.YlOrRd],
   colorFunction: Trianglify.colorFunctions.sparkle(0.2),
 }).toCanvas();

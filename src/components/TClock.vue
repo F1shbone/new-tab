@@ -36,6 +36,6 @@ onBeforeUnmount(() => {
     <span class="text-shadow">{{ hour }}</span>
     <span class="text-shadow">:</span>
     <span class="text-shadow">{{ minute }}</span>
-    <span class="text-shadow">{{ am_pm }}</span>
+    <span class="ml-3 text-shadow">{{ am_pm }}</span>
   </span>
 </template>
