@@ -1,5 +1,8 @@
 <script setup>
+import { h } from 'vue';
 import { useBackgroundImage } from '../../composables/useBackgroundImage';
+
+import TCloseButton from '../TCloseButton.vue';
 import TFileInput from '../TFileInput.vue';
 import TWallpaperDefault from '../TWallpaperDefault.vue';
 
@@ -29,66 +32,76 @@ function onRemove(e) {
     }
   }
 }
+
+function renderThumbnail({ image }) {
+  return h(
+    'button',
+    {
+      class:
+        'flex flex-col items-center w-full p-3 transition-colors bg-base-100 rounded-xl hover:bg-base-200',
+      onClick: () => onSelect(image),
+    },
+    [
+      h('div', { class: 'mx-auto mb-3 w-80' }, [
+        image.dataURL
+          ? h('div', {
+              class:
+                'w-full h-full bg-center bg-no-repeat bg-contain max-h-40 min-h-[160px]',
+              style: `background-image: url(${image.dataURL})`,
+            })
+          : h(TWallpaperDefault, {
+              width: 320,
+              height: 160,
+              cellSize: 25,
+            }),
+      ]),
+      h('span', { class: 'block text-center' }, image.name),
+    ]
+  );
+}
 </script>
 
 <template>
-  <t-file-input
-    accept="image/*"
-    @input="onInput"
-    class="flex justify-center w-1/2 mb-3 text-white"
-  />
+  <div class="ml-3 mr-6">
+    <t-file-input
+      accept="image/*"
+      @input="onInput"
+      class="flex justify-center w-1/2 mb-3 text-white"
+    />
 
-  <hr class="mb-6 border border-gray-500" />
+    <hr class="mb-6 border border-gray-500" />
 
-  <ul class="flex flex-wrap items-center">
-    <li
-      v-for="image in background.images"
-      :key="image.name"
-      class="flex items-center w-1/2 mb-4"
-    >
-      <div
-        class="p-[2px] rounded-xl mx-auto relative overflow-hidden item"
-        :class="{
-          'bg-gradient': background.active === image.name,
-        }"
+    <ul class="flex flex-wrap items-center">
+      <li
+        v-for="image in background.images"
+        :key="image.name"
+        class="flex items-center w-1/2 mb-4"
       >
-        <button
-          class="flex flex-col items-center w-full p-3 transition-colors bg-base-100 rounded-xl hover:bg-base-200"
-          @click="onSelect(image)"
+        <div
+          class="p-[2px] rounded-xl mx-auto relative overflow-hidden item"
+          :class="{
+            'bg-gradient': background.active === image.name,
+          }"
         >
-          <div class="mx-auto mb-3 w-80">
-            <div
-              v-if="image.dataURL"
-              class="w-full h-full bg-center bg-no-repeat bg-contain max-h-40 min-h-[160px]"
-              :style="`background-image: url(${image.dataURL})`"
-            />
-            <t-wallpaper-default
-              :width="320"
-              :height="160"
-              :cellSize="25"
-              v-else
-            />
-          </div>
-          <span class="block text-center">{{ image.name }}</span>
-        </button>
-        <button
-          v-if="image.dataURL"
-          class="absolute top-0 -translate-y-full btn btn-sm btn-circle right-2"
-          @click="onRemove(image)"
-        >
-          ✕
-        </button>
-      </div>
-    </li>
-  </ul>
+          <t-close-button
+            v-if="image.dataURL"
+            floating
+            @click="onRemove(image)"
+          >
+            <template #default>
+              <render-thumbnail :image="image" />
+            </template>
+          </t-close-button>
+
+          <render-thumbnail v-else :image="image" />
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
 .bg-gradient {
   background: var(--gradient);
-}
-.item:hover > .btn:last-child {
-  @apply translate-y-0;
-  @apply top-2;
 }
 </style>

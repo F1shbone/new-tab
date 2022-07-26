@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 
+import TCloseButton from './TCloseButton.vue';
+
 const props = defineProps({
   isOpen: {
     type: Boolean,
@@ -27,17 +29,11 @@ onClickOutside(target, () => {
   <input type="checkbox" :checked="isOpen" class="modal-toggle" />
   <div class="modal">
     <div class="relative max-w-5xl p-0 modal-box" ref="target">
-      <button
-        class="absolute btn btn-sm btn-circle right-2 top-2"
-        @click="emits('close')"
-      >
-        ✕
-      </button>
+      <t-close-button @click="emits('close')" />
       <h3 class="p-6 pb-3 text-2xl font-bold">
         <slot name="title" />
       </h3>
       <div
-        class="pb-3"
         :class="{
           'px-6 pb-6': !flush,
         }"

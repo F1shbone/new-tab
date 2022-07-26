@@ -5,6 +5,7 @@ import bookmarks from '../../node_modules/bootstrap-icons/icons/bookmarks.svg?co
 import cardImage from '../../node_modules/bootstrap-icons/icons/card-image.svg?component';
 import chevronDown from '../../node_modules/bootstrap-icons/icons/chevron-down.svg?component';
 import clock from '../../node_modules/bootstrap-icons/icons/clock.svg?component';
+import plusSquare from '../../node_modules/bootstrap-icons/icons/plus-square.svg?component';
 import sliders from '../../node_modules/bootstrap-icons/icons/sliders.svg?component';
 import upload from '../../node_modules/bootstrap-icons/icons/upload.svg?component';
 
@@ -27,6 +28,7 @@ watchEffect(async () => {
   if (props.icon === 'card-image') svg.value = cardImage;
   if (props.icon === 'chevron-down') svg.value = chevronDown;
   if (props.icon === 'clock') svg.value = clock;
+  if (props.icon === 'plus-square') svg.value = plusSquare;
   if (props.icon === 'sliders') svg.value = sliders;
   if (props.icon === 'upload') svg.value = upload;
 });

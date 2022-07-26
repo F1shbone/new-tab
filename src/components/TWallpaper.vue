@@ -18,7 +18,7 @@ const dataURL = computed(() => {
       class="wallpaper__image"
       :style="`background-image: url(${dataURL})`"
     />
-    <t-wallpaper-default v-else />
+    <t-wallpaper-default fullscreen v-else />
   </div>
 </template>
 

@@ -1,36 +1,52 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
 import Trianglify from 'trianglify';
 import colorbrewer from 'trianglify/colorbrewer';
 
 const props = defineProps({
-  width: {
-    default: () => window.innerWidth,
-  },
-  height: {
-    default: () => window.innerHeight,
+  width: {},
+  height: {},
+  fullscreen: {
+    default: false,
+    type: Boolean,
   },
   cellSize: {
     default: () => 75,
   },
 });
 
-const canvas = Trianglify({
-  cellSize: props.cellSize,
-  width: props.width,
-  height: props.height,
-  seed: 112345,
-  palette: [colorbrewer.YlOrRd],
-  colorFunction: Trianglify.colorFunctions.sparkle(0.2),
-}).toCanvas();
+function generateWallpaper() {
+  return Trianglify({
+    cellSize: props.cellSize,
+    width: props.fullscreen ? window.innerWidth : props.width,
+    height: props.fullscreen ? window.innerHeight : props.height,
+    seed: 112345,
+    palette: [colorbrewer.YlOrRd],
+    colorFunction: Trianglify.colorFunctions.sparkle(0.2),
+  });
+}
 
 const el = ref();
+const onResize = useDebounceFn(() => {
+  el.value.innerHTML = '';
+  el.value.appendChild(generateWallpaper().toCanvas());
+});
+const resizeOb = new ResizeObserver(onResize);
 
 onMounted(() => {
-  el.value.appendChild(canvas);
+  el.value.appendChild(generateWallpaper().toCanvas());
+  if (props.fullscreen) {
+    resizeOb.observe(el.value);
+  }
+});
+onBeforeUnmount(() => {
+  if (props.fullscreen) {
+    resizeOb.disconnect();
+  }
 });
 </script>
 
 <template>
-  <div ref="el" />
+  <div class="w-full h-full" ref="el" />
 </template>
