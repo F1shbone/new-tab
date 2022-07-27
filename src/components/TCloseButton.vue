@@ -18,7 +18,7 @@ function render() {
       class: {
         'absolute btn btn-sm btn-circle right-2': true,
         'top-2': !props.floating,
-        'top-0 -translate-y-full btn-float': props.floating,
+        'btn-float': props.floating,
       },
       onClick: (e) => emits('click', e),
     },
@@ -47,6 +47,11 @@ function render() {
 </template>
 
 <style>
+.btn-float {
+  @apply top-0;
+  @apply -translate-y-full;
+  @apply animate-none !important;
+}
 .floating:hover .btn-float {
   @apply translate-y-0;
   @apply top-2;

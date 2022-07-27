@@ -2,12 +2,15 @@
 import { ref } from 'vue';
 import { useBookmarks } from '../../composables/useBookmarks';
 
+import draggable from 'vuedraggable';
+
 import TBookmark from '../TBookmark.vue';
 import TCloseButton from '../TCloseButton.vue';
 import TIcon from '../TIcon.vue';
 
 const bookmarks = useBookmarks();
 const isOpen = ref(false);
+const isDrag = ref(false);
 
 function onMenuOpen() {
   isOpen.value = true;
@@ -22,18 +25,26 @@ function onRemove() {
 
 <template>
   <div class="flex flex-row flex-wrap ml-3 mr-6">
-    <t-close-button
-      v-for="(bookmark, i) in bookmarks"
-      :key="i"
-      floating
-      @click="onRemove"
+    <draggable
+      v-model="bookmarks"
+      group="people"
+      @start="isDrag = true"
+      @end="isDrag = false"
+      item-key="name"
+      class="flex flex-row flex-wrap"
     >
-      <template #default>
-        <t-bookmark :name="bookmark.name" element="div" class="bookmark">
-          <template #icon><img :src="bookmark.favicon" /></template>
-        </t-bookmark>
+      <template #item="{ element }">
+        <div class="cursor-pointer">
+          <t-close-button floating @click="onRemove">
+            <template #default>
+              <t-bookmark :name="element.name" element="div" class="bookmark">
+                <template #icon><img :src="element.favicon" /></template>
+              </t-bookmark>
+            </template>
+          </t-close-button>
+        </div>
       </template>
-    </t-close-button>
+    </draggable>
 
     <div>
       <t-bookmark name="Add" element="button" @click="onMenuOpen">
@@ -42,7 +53,7 @@ function onRemove() {
     </div>
   </div>
 
-  <div class="mt-3 mb-12 collapse" :class="{ 'collapse-open': isOpen }">
+  <div class="collapse" :class="{ 'collapse-open': isOpen }">
     <div class="p-0 collapse-content">
       <div class="relative p-6 pt-5 m-4 rounded-lg triangle bg-base-200">
         <t-close-button @click="onMenuClose" />
@@ -76,6 +87,10 @@ function onRemove() {
 </template>
 
 <style scoped>
+.collapse-open {
+  @apply mt-3;
+  @apply mb-12;
+}
 .triangle {
   @apply relative;
 }
