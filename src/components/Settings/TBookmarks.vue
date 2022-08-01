@@ -11,12 +11,17 @@ import TIcon from '../TIcon.vue';
 const bookmarks = useBookmarks();
 const isOpen = ref(false);
 const isDrag = ref(false);
+const triangleOffset = ref(-100);
 
-function onMenuOpen() {
+function onMenuOpen(e) {
   isOpen.value = true;
+
+  const { offsetLeft, clientWidth } = e.target.closest('button');
+  triangleOffset.value = offsetLeft + clientWidth / 2;
 }
 function onMenuClose() {
   isOpen.value = false;
+  triangleOffset.value = -100;
 }
 function onRemove() {
   console.log('REMOVE!');
@@ -53,9 +58,10 @@ function onRemove() {
     </div>
   </div>
 
-  <div class="collapse" :class="{ 'collapse-open': isOpen }">
-    <div class="p-0 collapse-content">
-      <div class="relative p-6 pt-5 m-4 rounded-lg triangle bg-base-200">
+  <div class="relative collapse" :class="{ 'collapse-open': isOpen }">
+    <div class="triangle" :style="{ left: `${triangleOffset}px` }"></div>
+    <div class="p-0 mt-3 collapse-content">
+      <div class="relative p-6 pt-5 mx-4 rounded-lg bg-base-200">
         <t-close-button @click="onMenuClose" />
 
         <div class="w-full form-control">
@@ -92,18 +98,22 @@ function onRemove() {
   @apply mb-12;
 }
 .triangle {
-  @apply relative;
+  @apply absolute;
+  @apply h-3;
+  @apply w-6;
+  @apply top-0;
+  @apply -translate-x-1/2;
 }
 .triangle::before {
   content: '';
   @apply absolute;
-  @apply left-1/2;
-  @apply -top-6;
-  @apply translate-x-1/2;
+  @apply left-0;
+  @apply -top-3;
   @apply w-0;
   @apply h-0;
   border: 0.75rem solid transparent;
   @apply border-b-base-200;
+  /* border-bottom-color: #f90; */
 }
 
 .btn-gradient {

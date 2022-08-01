@@ -53,7 +53,9 @@ const items = ref([
         >
       </button>
     </aside>
-    <div class="flex flex-col max-h-full pt-3 overflow-y-auto basis-9/12">
+    <div
+      class="relative flex flex-col max-h-full pt-3 overflow-y-auto basis-9/12"
+    >
       <component :is="items[active].to" />
     </div>
   </div>

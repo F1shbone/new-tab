@@ -48,14 +48,14 @@ onMounted(() => {
   >
     <template #default>
       <a
-        class="block w-full text-left transition-colors bg-base-200 hover:bg-base-300"
+        class="block w-full text-left transition-colors select-none bg-base-200 hover:bg-base-300"
         v-for="item in data"
         :key="item.id"
         :href="`https://news.ycombinator.com/item?id=${item.id}`"
         target="_blank"
       >
         <!-- @click="preview = `https://news.ycombinator.com/item?id=${item.id}`" -->
-        <p class="text-white whitespace-nowrap text-ellipsis">
+        <p class="overflow-hidden text-white whitespace-nowrap text-ellipsis">
           {{ item.title }}
         </p>
         <p class="text-gray-400">
