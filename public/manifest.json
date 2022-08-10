@@ -1,16 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Brave new Tab",
+  "name": "Chromium new Tab",
   "version": "0.1.0",
   // "default_locale": "en",
-  "description": "Replace the default new Tab page of Brave",
+  "description": "Replace the default new Tab page of Chromium",
   // "icons": {...},
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+  "background": {
+    "service_worker": "./assets/background.js"
+  },
   "permissions": [
-    "storage",
-    "http://*/",
-    "https://*/"
+    "storage"
   ]
 }

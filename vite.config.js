@@ -21,4 +21,16 @@ export default defineConfig({
       ),
     },
   },
+
+  build: {
+    rollupOptions: {
+      input: {
+        newTab: path.resolve(__dirname, './index.html'),
+        'background/index': path.resolve(__dirname, 'src/background/main.js'),
+      },
+      output: {
+        //
+      },
+    },
+  },
 });

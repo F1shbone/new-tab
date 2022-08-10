@@ -11,6 +11,15 @@ import TClock from './components/TClock.vue';
 import TBookmarks from './components/TBookmarks.vue';
 import TWidgets from './components/TWidgets.vue';
 
+// import { useStorageLocal } from './composables/useStorage';
+
+// const storage = useStorageLocal('cnt-background-script', {
+//   test: 'lorem ipsum',
+// });
+
+// console.log(storage);
+// storage.getItem('test').then(console.log);
+
 const customizeModal = ref(false);
 </script>
 

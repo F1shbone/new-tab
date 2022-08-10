@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useBookmarks } from '../../composables/useBookmarks';
+import { useRemoteFavicon } from '../../composables/useRemoteFavicon';
 
 import draggable from 'vuedraggable';
 
@@ -25,6 +26,15 @@ function onMenuClose() {
 }
 function onRemove() {
   console.log('REMOVE!');
+}
+
+// New Bookmark Dialog
+const name = ref('');
+const url = ref('');
+
+function onAdd() {
+  console.log('!!');
+  useRemoteFavicon(url.value);
 }
 </script>
 
@@ -69,6 +79,7 @@ function onRemove() {
             <span class="label-text">Name</span>
           </label>
           <input
+            v-model="name"
             type="text"
             placeholder="Website title"
             class="w-full h-10 input input-bordered"
@@ -79,12 +90,16 @@ function onRemove() {
             <span class="label-text">URL</span>
           </label>
           <input
+            v-model="url"
             type="text"
             placeholder="Website address"
             class="w-full h-10 input input-bordered"
           />
         </div>
-        <button class="w-full h-10 p-0 mt-2 min-h-min btn btn-gradient">
+        <button
+          class="w-full h-10 p-0 mt-2 min-h-min btn btn-gradient"
+          @click="onAdd"
+        >
           <span class="z-30">Add Bookmark</span>
         </button>
       </div>
