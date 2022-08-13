@@ -7,7 +7,7 @@ const bookmarks = useBookmarks();
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex flex-wrap content-start">
     <t-bookmark
       v-for="(bookmark, i) in bookmarks"
       :key="i"

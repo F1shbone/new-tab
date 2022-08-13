@@ -39,7 +39,7 @@ function render() {
     mergeProps(
       {
         class:
-          'flex flex-col items-center justify-start w-20 m-1 p-[5px] rounded-lg h-28 hover:bg-base-300',
+          'flex flex-col shrink-0 items-center justify-start w-20 m-1 p-[5px] rounded-lg h-28 hover:bg-base-300',
       },
       attrs
     ),

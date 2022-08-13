@@ -10,7 +10,7 @@ export function useAsync(asyncFn) {
     isFinished.value = false;
     error.value = undefined;
 
-    asyncFn()
+    return asyncFn()
       .then((result) => {
         data.value = result;
       })

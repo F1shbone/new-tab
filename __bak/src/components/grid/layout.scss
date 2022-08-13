@@ -1,0 +1,44 @@
+.grid {
+  &__layout {
+    position: relative;
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 1;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    &--left {
+      flex: 0 0 50rem;
+      max-width: 50rem;
+    }
+    &--right {
+      flex: 0 0 35rem;
+      max-width: 35rem;
+      margin-left: auto;
+    }
+  }
+  &__item {
+    padding: 1.5rem;
+    flex: 1 1 auto;
+    overflow: hidden;
+
+    > .card {
+      max-height: 100%;
+    }
+  }
+}
+
+@media (max-width: 60rem) {
+  .grid__layout {
+    // grid-template-columns: 1fr 0fr 1fr;
+  }
+}

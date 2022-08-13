@@ -14,8 +14,8 @@ const isOpen = ref(false);
 const isDrag = ref(false);
 const triangleOffset = ref(-100);
 
-function onMenuOpen(e) {
-  isOpen.value = true;
+function onMenuToggle(e) {
+  isOpen.value = !isOpen.value;
 
   const { offsetLeft, clientWidth } = e.target.closest('button');
   triangleOffset.value = offsetLeft + clientWidth / 2;
@@ -24,8 +24,10 @@ function onMenuClose() {
   isOpen.value = false;
   triangleOffset.value = -100;
 }
-function onRemove() {
-  console.log('REMOVE!');
+function onRemove({ name }) {
+  const index = bookmarks.value.findIndex((e) => e.name === name);
+  console.log(index);
+  bookmarks.value.splice(index, 1);
 }
 
 // New Bookmark Dialog
@@ -33,8 +35,17 @@ const name = ref('');
 const url = ref('');
 
 function onAdd() {
-  console.log('!!');
-  useRemoteFavicon(url.value);
+  if (name.value === '' || url.value === '') return;
+
+  const { favicon, execute } = useRemoteFavicon(url.value);
+
+  execute().then(() => {
+    bookmarks.value.push({
+      name: name.value,
+      url: url.value,
+      favicon: favicon.value,
+    });
+  });
 }
 </script>
 
@@ -50,7 +61,7 @@ function onAdd() {
     >
       <template #item="{ element }">
         <div class="cursor-pointer">
-          <t-close-button floating @click="onRemove">
+          <t-close-button floating @click="onRemove(element)">
             <template #default>
               <t-bookmark :name="element.name" element="div" class="bookmark">
                 <template #icon><img :src="element.favicon" /></template>
@@ -62,7 +73,7 @@ function onAdd() {
     </draggable>
 
     <div>
-      <t-bookmark name="Add" element="button" @click="onMenuOpen">
+      <t-bookmark name="Add" element="button" @click="onMenuToggle">
         <template #icon><t-icon icon="plus-square" /></template>
       </t-bookmark>
     </div>
@@ -71,7 +82,10 @@ function onAdd() {
   <div class="relative collapse" :class="{ 'collapse-open': isOpen }">
     <div class="triangle" :style="{ left: `${triangleOffset}px` }"></div>
     <div class="p-0 mt-3 collapse-content">
-      <div class="relative p-6 pt-5 mx-4 rounded-lg bg-base-200">
+      <form
+        class="relative p-6 pt-5 mx-4 rounded-lg bg-base-200"
+        @submit.prevent="onAdd"
+      >
         <t-close-button @click="onMenuClose" />
 
         <div class="w-full form-control">
@@ -98,11 +112,11 @@ function onAdd() {
         </div>
         <button
           class="w-full h-10 p-0 mt-2 min-h-min btn btn-gradient"
-          @click="onAdd"
+          role="submit"
         >
           <span class="z-30">Add Bookmark</span>
         </button>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -111,6 +125,8 @@ function onAdd() {
 .collapse-open {
   @apply mt-3;
   @apply mb-12;
+  @apply overflow-visible;
+  @apply min-h-[16rem];
 }
 .triangle {
   @apply absolute;

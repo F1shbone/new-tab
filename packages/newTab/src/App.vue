@@ -20,6 +20,18 @@ import TWidgets from './components/TWidgets.vue';
 // console.log(storage);
 // storage.getItem('test').then(console.log);
 
+// const url = '_favicon/?pageUrl=https://www.google.com&size=64';
+// fetch(chrome.runtime.getURL(url))
+//   .then((response) => {
+//     return response.blob();
+//   })
+//   .then((blob) => {
+//     const objectURL = URL.createObjectURL(blob);
+//     console.log(objectURL);
+//   });
+
+// console.log(resp);
+
 const customizeModal = ref(false);
 </script>
 
