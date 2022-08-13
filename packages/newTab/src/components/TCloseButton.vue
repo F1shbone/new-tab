@@ -2,6 +2,10 @@
 import { h, useSlots } from 'vue';
 
 const props = defineProps({
+  static: {
+    default: false,
+    type: Boolean,
+  },
   floating: {
     default: false,
     type: Boolean,
@@ -16,8 +20,9 @@ function render() {
     'button',
     {
       class: {
-        'absolute btn btn-sm btn-circle right-2': true,
-        'top-2': !props.floating,
+        'btn btn-sm btn-circle': true,
+        'absolute right-2': !props.static,
+        'top-2': !props.floating && !props.static,
         'btn-float': props.floating,
       },
       onClick: (e) => emits('click', e),
