@@ -19,6 +19,7 @@ const dragOptions = ref({
 const isDrag = ref(false);
 
 // New Bookmark Dialog
+const urlPrefix = 'https://';
 const name = ref('');
 const url = ref('');
 const index = computed(() =>
@@ -29,12 +30,12 @@ const btnLabel = computed(() => (index.value === -1 ? 'Add' : 'Edit'));
 function onAdd() {
   if (name.value === '' || url.value === '') return;
 
-  const { favicon, execute } = useRemoteFavicon(url.value);
+  const { favicon, execute } = useRemoteFavicon(urlPrefix + url.value);
 
   execute().then(() => {
     const bookmark = {
       name: name.value,
-      url: url.value,
+      url: urlPrefix + url.value,
       favicon: favicon.value,
     };
 
@@ -50,7 +51,7 @@ function onAdd() {
 }
 function onEdit(elem) {
   name.value = elem.name;
-  url.value = elem.url;
+  url.value = elem.url.replace(urlPrefix, '');
 }
 function onRemove({ name }) {
   const index = bookmarks.value.findIndex((e) => e.name === name);
@@ -76,12 +77,15 @@ function onRemove({ name }) {
         <label class="label">
           <span class="label-text">URL</span>
         </label>
-        <input
-          v-model="url"
-          type="text"
-          placeholder="Website address"
-          class="w-full h-10 input input-bordered"
-        />
+        <label class="input-group">
+          <span>{{ urlPrefix }}</span>
+          <input
+            v-model="url"
+            type="text"
+            placeholder="Website address"
+            class="w-full h-10 input input-bordered"
+          />
+        </label>
       </div>
       <button
         class="w-full h-10 p-0 mt-2 min-h-min btn btn-gradient"
