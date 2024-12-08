@@ -54,24 +54,26 @@ onFetchResponse(async () => {
       <p class="text-sm text-gray-600">{{ data?.status }} - {{ data?.code }}</p>
     </template>
     <template #empty>No upcoming sets found</template>
-    <a
-      v-for="set in mtg.sets"
-      :key="set.id"
-      :href="`${set.scryfall_uri}?order=spoiled`"
-      target="_blank"
-      class="flex items-center gap-4 p-2 mt-2 rounded-lg hover:bg-gray-500/30"
-    >
-      <img :src="set.icon_svg_uri" class="h-8 ml-2" />
-      <div class="grow">
-        <h4 class="flex gap-2 text-xl">
-          {{ set.name }}
-          <span class="mt-1 font-mono text-base text-orange-500">({{ set.code }})</span>
-        </h4>
-        <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
-        <p class="text-sm text-gray-600">
-          Release Date: {{ useDateFormat(set.released_at, 'DD.MM.YYYY') }}
-        </p>
-      </div>
-    </a>
+    <div class="flex flex-col-reverse">
+      <a
+        v-for="set in mtg.sets"
+        :key="set.id"
+        :href="`${set.scryfall_uri}?order=spoiled`"
+        target="_blank"
+        class="flex items-center gap-4 p-2 mt-2 rounded-lg hover:bg-gray-500/30"
+      >
+        <div class="grow">
+          <h4 class="flex gap-2 text-xl">
+            {{ set.name }}
+            <span class="mt-1 font-mono text-base text-orange-500">({{ set.code }})</span>
+          </h4>
+          <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
+          <p class="text-sm text-gray-600">
+            Release Date: {{ useDateFormat(set.released_at, 'DD.MM.YYYY') }}
+          </p>
+        </div>
+        <img :src="set.icon_svg_uri" class="h-8 ml-2" />
+      </a>
+    </div>
   </TCard>
 </template>

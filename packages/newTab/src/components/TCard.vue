@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="p-2 transition-all rounded-lg bg-white/40 backdrop-blur">
+  <div class="p-2 transition-all border rounded-lg border-gray-500/30 bg-white/40 backdrop-blur">
     <div v-if="$slots.title">
       <h2 class="mx-2 mt-2 tracking-tight text-gray-600 uppercase"><slot name="title" /></h2>
     </div>

@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useSound } from '@vueuse/sound'
 import { RiPlayFill } from '@remixicon/vue'
 import { RiPauseFill } from '@remixicon/vue'
 import { RiDeleteBin2Fill } from '@remixicon/vue'
+import buttonSfx from '../../public/alert.mp3'
 
 const props = defineProps<{
   timer: number
 }>()
 const emits = defineEmits(['delete'])
-const registerTimer = inject<(e: () => void) => void>('register')
-const unregisterTimer = inject<(e: () => void) => void>('unregister')
+const registerTimer = inject<(e: () => void) => number>('register')
+const unregisterTimer = inject<(e: number) => void>('unregister')
+
+const { play, stop } = useSound(buttonSfx, {
+  volume: 0.15,
+})
 
 const paused = ref(false)
 const countdown = ref(props.timer)
@@ -23,35 +29,50 @@ const countdownDisplay = computed(() => {
     hours.toString().padStart(2, '0'),
     minutes.toString().padStart(2, '0'),
     secs.toString().padStart(2, '0'),
-  ]
+  ].join(':')
 })
 
 function onPlayPause() {
   paused.value = !paused.value
 }
 function timerFn() {
-  if (!paused.value) {
+  if (!paused.value && countdown.value > 0) {
     countdown.value--
+  }
+  if (countdown.value === 0) {
+    play()
+    setTimeout(stop, 4000)
+    unregisterTimer?.(timerId)
   }
 }
 
+let timerId = -1
 onMounted(() => {
-  registerTimer?.(timerFn)
+  if (registerTimer) {
+    timerId = registerTimer(timerFn)
+  }
 })
 onBeforeUnmount(() => {
-  unregisterTimer?.(timerFn)
+  unregisterTimer?.(timerId)
 })
 </script>
 
 <template>
   <div class="flex items-center gap-2 p-2 my-1">
     <div class="grow">
-      <h1 class="text-3xl">
-        <span class="inline-block w-10 text-center">{{ countdownDisplay[0] }}</span>
-        <span>:</span>
-        <span class="inline-block w-10 text-center">{{ countdownDisplay[1] }}</span>
-        <span>:</span>
-        <span class="inline-block w-10 text-center">{{ countdownDisplay[2] }}</span>
+      <h1
+        class="text-3xl"
+        style="
+          font-family:
+            Menlo,
+            Consolas,
+            Monaco,
+            Liberation Mono,
+            Lucida Console,
+            monospace;
+        "
+      >
+        {{ countdownDisplay }}
       </h1>
     </div>
     <button class="p-2 transition-colors rounded-full hover:bg-gray-500/30" @click="onPlayPause">

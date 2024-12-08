@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { provide, ref } from 'vue'
 import { useIntervalFn } from '@vueuse/core'
 import { RiAddLine } from '@remixicon/vue'
 import TCard from './TCard.vue'
 import TTimer from './TTimer.vue'
-import { provide, ref } from 'vue'
 
 const timersFns: Array<() => void> = []
 useIntervalFn(() => {
@@ -12,12 +12,13 @@ useIntervalFn(() => {
 
 provide('register', (fn: () => void) => {
   timersFns.push(fn)
+  return timersFns.length - 1
 })
-provide('unregister', (fn: () => void) => {
-  timersFns.filter((e) => e === fn)
+provide('unregister', (id: number) => {
+  timersFns.splice(id, 1)
 })
 
-const timers = ref([60 * 15, 60 * 30, 60 * 45, 60 * 60])
+const timers = ref([])
 </script>
 
 <template>
@@ -36,5 +37,8 @@ const timers = ref([60 * 15, 60 * 30, 60 * 45, 60 * 60])
     <template v-for="(timer, i) in timers" :key="i">
       <TTimer :timer="timer" />
     </template>
+    <div v-if="timers.length === 0">
+      <h4 class="ml-2 text-xl font-thin">No Timers</h4>
+    </div>
   </TCard>
 </template>
