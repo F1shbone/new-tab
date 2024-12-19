@@ -4,7 +4,7 @@ import { useSound } from '@vueuse/sound'
 import { RiPlayFill } from '@remixicon/vue'
 import { RiPauseFill } from '@remixicon/vue'
 import { RiDeleteBin2Fill } from '@remixicon/vue'
-import buttonSfx from '../../public/alert.mp3'
+import buttonSfx from '../assets/alert.mp3'
 
 const props = defineProps<{
   timer: number

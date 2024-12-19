@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useDateFormat } from '@vueuse/core'
-import { RiChat1Line, RiBardFill } from '@remixicon/vue'
+import { RiChat1Fill, RiBardFill } from '@remixicon/vue'
 
+import TLoader from './TLoader.vue'
+import TTimeline from './TTimeline.vue'
 import { useFetch } from '../composables/useFetch'
 
 type HackernewsStory = {
@@ -17,7 +19,7 @@ type HackernewsStory = {
   url: string
 }
 
-const { isFetching, error, data } = useFetch(async () => {
+const { isFetching, data, execute } = useFetch(async () => {
   const idResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
   if (!idResponse.ok) {
     throw new Error('Cound not load Hackernews top stories Ids')
@@ -37,7 +39,7 @@ const { isFetching, error, data } = useFetch(async () => {
         return e
       })
       .toSorted((a, b) => b.time - a.time)
-      .reduce((acc: Record<string, Array<HackernewsStory>>, val) => {
+      .reduce((acc: { [key: string]: Array<HackernewsStory> }, val) => {
         if (!acc[val.date]) {
           acc[val.date] = []
         }
@@ -49,46 +51,37 @@ const { isFetching, error, data } = useFetch(async () => {
 </script>
 
 <template>
-  <div class="h-full overflow-x-scroll">
-    <ol v-for="(news, date, i) in data" :key="date" class="relative mr-4 border-gray-700 border-e">
-      <li
-        :class="{
-          'pb-2': i !== Object.keys(data ?? {}).length - 1,
-          'mx-4': true,
-        }"
+  <div v-if="isFetching" class="flex items-center justify-center">
+    <TLoader />
+  </div>
+  <TTimeline v-if="!isFetching && data" :items="data" @refresh="execute">
+    <template #default="{ item }">
+      <a
+        class="w-full p-2 text-left transition-colors select-none group"
+        :href="`https://news.ycombinator.com/item?id=${item.id}`"
+        target="_blank"
       >
-        <div class="absolute w-3 h-3 rounded-full mt-1.5 -end-1.5 bg-orange-700" />
-        <time class="block pt-1 font-normal leading-none text-right text-orange-700">{{
-          date
-        }}</time>
-        <a
-          class="w-full p-2 text-left transition-colors select-none group"
-          v-for="item in news"
-          :key="item.id"
-          :href="`https://news.ycombinator.com/item?id=${item.id}`"
-          target="_blank"
-        >
-          <p class="overflow-hidden">
-            {{ item.title }}
-          </p>
+        <p class="overflow-hidden">
+          {{ item.title }}
+        </p>
 
-          <div class="flex items-center gap-4 mt-2">
-            <time class="ml-2 text-sm text-gray-700">
-              {{ useDateFormat(new Date(item.time * 1000), 'HH:mm') }}
-            </time>
-            <div
-              class="flex gap-1 items-center px-2 py-.5 border border-black transition-colors rounded-2xl group-hover:text-white group-hover:bg-gray-800"
-            >
-              <RiBardFill class="w-4 h-4" /> {{ item.score }}
+        <div class="flex items-center gap-4 mt-2">
+          <div
+            class="min-w-28 flex gap-3 px-2 py-.5 border border-black transition-colors rounded group-hover:text-white group-hover:bg-gray-800 justify-end"
+          >
+            <div class="flex items-center gap-1">
+              <RiBardFill class="w-4 h-4 text-orange-700" /> {{ item.score }}
             </div>
-            <div
-              class="flex gap-1 items-center px-2 py-.5 border border-black transition-colors rounded-2xl group-hover:text-white group-hover:bg-gray-800"
-            >
-              <RiChat1Line class="w-4 h-4" /> {{ item.kids?.length ?? 0 }}
+            <div class="flex items-center gap-1">
+              <RiChat1Fill class="w-4 h-4 text-orange-700" /> {{ item.kids?.length ?? 0 }}
             </div>
           </div>
-        </a>
-      </li>
-    </ol>
-  </div>
+          <div class="grow" />
+          <time class="text-sm text-orange-700">
+            {{ useDateFormat(new Date(item.time * 1000), 'HH:mm') }}
+          </time>
+        </div>
+      </a>
+    </template>
+  </TTimeline>
 </template>

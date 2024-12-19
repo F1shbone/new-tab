@@ -65,7 +65,7 @@ onFetchResponse(async () => {
         <div class="grow">
           <h4 class="flex gap-2 text-xl">
             {{ set.name }}
-            <span class="mt-1 font-mono text-base text-orange-500">({{ set.code }})</span>
+            <span class="mt-1 font-mono text-base text-orange-700">({{ set.code }})</span>
           </h4>
           <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
           <p class="text-sm text-gray-600">
