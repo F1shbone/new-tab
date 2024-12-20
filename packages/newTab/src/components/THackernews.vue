@@ -4,6 +4,7 @@ import { useDateFormat, useTimeAgo } from '@vueuse/core'
 import { RiChat1Line, RiLink, RiTimeLine, RiBardLine, RiRefreshLine } from '@remixicon/vue'
 
 import TButton from './TButton.vue'
+import TCard from './TCard.vue'
 import THackernewsSkeleton from './THackernewsSkeleton.vue'
 import { useFetch } from '../composables/useFetch'
 
@@ -67,24 +68,24 @@ function toggleSortBy() {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-hidden">
-    <div class="flex items-end gap-2 p-2 my-2">
+  <TCard flush class="flex flex-col h-full overflow-hidden">
+    <div class="flex items-end p-2 my-2">
       <h2 class="ml-2 text-4xl font-bold tracking-tight grow">Hackernews</h2>
       <TButton variant="link" @click="execute">
-        Refresh
+        <span class="hidden 2xl:block">Refresh</span>
         <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
           <RiRefreshLine class="w-4 h-4" />
         </div>
       </TButton>
       <TButton variant="link" @click="toggleSortBy">
-        Sort by
+        <span class="hidden 2xl:block">Sort by</span>
         <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
           <RiTimeLine v-if="sortBy === 'time'" class="w-4 h-4" />
           <RiBardLine v-if="sortBy === 'score'" class="w-4 h-4" />
         </div>
       </TButton>
     </div>
-    <div class="max-h-full mx-2 overflow-auto grow">
+    <div class="max-h-full px-2 overflow-auto grow">
       <div v-if="isFetching" class="h-full">
         <THackernewsSkeleton v-for="i in Array(15)" :key="i" />
       </div>
@@ -127,5 +128,5 @@ function toggleSortBy() {
         </a>
       </template>
     </div>
-  </div>
+  </TCard>
 </template>

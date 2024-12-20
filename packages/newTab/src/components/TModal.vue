@@ -1,8 +1,8 @@
-<script setup>
-import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
+<script setup lang="ts">
+import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
-import TCloseButton from './TCloseButton.vue';
+import TCloseButton from './TCloseButton.vue'
 
 const props = defineProps({
   isOpen: {
@@ -13,16 +13,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-});
-const emits = defineEmits(['close']);
+})
+const emits = defineEmits(['close'])
 
-const target = ref(null);
+const target = ref(null)
 
 onClickOutside(target, () => {
   if (props.isOpen) {
-    emits('close');
+    emits('close')
   }
-});
+})
 </script>
 
 <template>
