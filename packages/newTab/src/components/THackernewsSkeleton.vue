@@ -6,10 +6,7 @@ const width = ref(Math.random() * 151 + 250)
 </script>
 
 <template>
-  <div
-    role="status"
-    class="block px-4 py-2 transition-colors border-t animate-pulse border-black/25 hover:bg-white"
-  >
+  <div role="status" class="block p-2 my-2 transition-colors animate-pulse">
     <div class="flex items-start gap-4">
       <div class="grow">
         <div class="h-4 mb-3 bg-gray-700 rounded-full" :style="`width: ${width}px`" />

@@ -12,6 +12,7 @@ import THackernews from './components/THackernews.vue'
 import TWarhammer from './components/TWarhammer.vue'
 import VNavButton from './components/VNavButton.vue'
 import TButton from './components/TButton.vue'
+import TCard from './components/TCard.vue'
 
 const now = useNow()
 const currentTime = useDateFormat(now, 'HH:mm', { locales: 'de-DE' })
@@ -28,18 +29,16 @@ const activeTab = ref('hackernews')
 </script>
 
 <template>
-  <main class="w-screen h-screen grid grid-cols-[1fr_30rem] gap-4">
-    <div class="grid grid-cols-4 grid-rows-[7rem_1fr] gap-4 p-4">
-      <h1 class="col-start-4 text-right text-white select-none text-7xl drop-shadow-xl">
-        {{ currentTime }}
-        <small class="block mt-1 text-3xl font-thin">{{ currentDay }}</small>
-      </h1>
+  <main class="w-screen h-screen grid grid-cols-5 grid-rows-[7rem_1fr] gap-4 p-4">
+    <h1 class="col-start-4 text-right text-white select-none text-7xl drop-shadow-xl">
+      {{ currentTime }}
+      <small class="block mt-1 text-3xl font-thin">{{ currentDay }}</small>
+    </h1>
 
-      <div class="flex flex-col col-span-2 gap-4">
-        <TBookmarks />
-      </div>
+    <div class="flex flex-col justify-between col-span-2 row-span-2 row-start-1 gap-4">
+      <TBookmarks />
 
-      <div class="flex flex-col col-start-4 gap-4">
+      <div class="flex flex-col w-1/2 gap-4">
         <TMtgSpoilers />
         <TAlarmWatch />
         <TButton block variant="secondary" size="lg">
@@ -47,32 +46,12 @@ const activeTab = ref('hackernews')
           Settings
         </TButton>
       </div>
+    </div>
 
-      <!--
-      - Widget Bookmarks
-      - Widget Hackernews
-      - Widget Warhammer Community
-      - Widget Stop Watch
-      - Settings
-      -->
-    </div>
-    <div class="overflow-hidden border-l border-gray-400 bg-gray-100/60 backdrop-blur-sm">
-      <!-- <VNavButton
-        class="mb-4"
-        :items="[
-          { value: 'hackernews', text: 'Hackernews' },
-          { value: 'warhammer', text: 'Warhammer' },
-        ]"
-        :active="activeTab"
-        @click="activeTab = $event"
-      /> -->
+    <TCard flush class="col-start-5 row-span-2 row-start-1">
       <THackernews />
-    </div>
+    </TCard>
 
     <TWallpaper />
   </main>
 </template>
-
-<style scoped>
-/*  */
-</style>

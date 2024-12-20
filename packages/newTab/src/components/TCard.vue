@@ -6,13 +6,19 @@ defineProps<{
   isFetching?: boolean
   isError?: boolean
   isEmpty?: boolean
+  flush?: boolean
 }>()
 </script>
 
 <template>
-  <div class="p-2 transition-all border border-gray-400 rounded-lg bg-gray-100/60 backdrop-blur-sm">
+  <div
+    class="transition-all border border-gray-400 rounded-lg bg-gray-100/60 backdrop-blur-sm"
+    :class="{
+      'p-2': !flush,
+    }"
+  >
     <div v-if="$slots.title">
-      <h2 class="mx-2 mt-2 tracking-tight text-gray-600 uppercase"><slot name="title" /></h2>
+      <h2 class="mx-2 mt-2 tracking-tight text-orange-700 uppercase"><slot name="title" /></h2>
     </div>
 
     <div v-if="isFetching" class="flex justify-center">
