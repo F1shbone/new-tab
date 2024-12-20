@@ -11,73 +11,65 @@ import TBookmarks from './components/TBookmarks.vue'
 import THackernews from './components/THackernews.vue'
 import TWarhammer from './components/TWarhammer.vue'
 import VNavButton from './components/VNavButton.vue'
+import TButton from './components/TButton.vue'
 
 const now = useNow()
 const currentTime = useDateFormat(now, 'HH:mm', { locales: 'de-DE' })
 const currentDay = computed(() => {
   const day = now.value.getDate()
   const month = now.value.getMonth()
+  const year = now.value.getFullYear()
   const dayName = now.value.toLocaleDateString('de-DE', {
     weekday: 'long',
   })
-  return `${dayName} ${day}.${month}`
+  return `${dayName}, ${day}.${month}.${year}`
 })
 const activeTab = ref('hackernews')
 </script>
 
 <template>
-  <!-- <main class="w-screen h-screen grid grid-cols-[1fr_30rem]"> -->
-  <main class="w-screen h-screen">
-    <div class="relative p-4">
-      <h1 class="text-right text-white select-none text-7xl drop-shadow-xl">
+  <main class="w-screen h-screen grid grid-cols-[1fr_30rem] gap-4">
+    <div class="grid grid-cols-4 grid-rows-[7rem_1fr] gap-4 p-4">
+      <h1 class="col-start-4 text-right text-white select-none text-7xl drop-shadow-xl">
         {{ currentTime }}
         <small class="block mt-1 text-3xl font-thin">{{ currentDay }}</small>
       </h1>
-      <!-- <div class="flex justify-between">
-        <div class="flex gap-4">
-          <TBookmarks style="width: 850px" />
-        </div>
-        <div class="flex flex-col gap-4 w-96">
-          <TMtgSpoilers />
-          <TAlarmWatch />
 
-          <button
-            class="flex items-center justify-center gap-2 px-6 py-3 text-xl text-white transition-all bg-gray-800 rounded-lg hover:bg-gray-900"
-          >
-            <RiToolsFill />
-            Settings
-          </button>
-        </div>
-      </div> -->
-    </div>
-    <!--
-    <div
-      class="grid grid-rows-[auto,1fr] overflow-hidden border-l bg-white/40 backdrop-blur border-gray-500/30"
-    >
-      <VNavButton
-        :active="activeTab"
-        :items="[
-          { text: 'Hackernews', value: 'hackernews' },
-          { text: 'Warhammer', value: 'warhammer' },
-        ]"
-        @click="activeTab = $event"
-      />
+      <div class="flex flex-col col-span-2 gap-4">
+        <TBookmarks />
+      </div>
 
-      <KeepAlive>
-        <THackernews v-if="activeTab === 'hackernews'" />
-      </KeepAlive>
-      <TWarhammer v-if="activeTab === 'warhammer'" />
-    </div>
-    -->
+      <div class="flex flex-col col-start-4 gap-4">
+        <TMtgSpoilers />
+        <TAlarmWatch />
+        <TButton block variant="secondary" size="lg">
+          <RiToolsFill class="w-6 h-6" />
+          Settings
+        </TButton>
+      </div>
 
-    <TWallpaper />
-    <!--
+      <!--
       - Widget Bookmarks
       - Widget Hackernews
       - Widget Warhammer Community
       - Widget Stop Watch
       - Settings
       -->
+    </div>
+    <div class="overflow-hidden border-l border-gray-400 bg-gray-100/60 backdrop-blur-sm">
+      <!-- <VNavButton
+        class="mb-4"
+        :items="[
+          { value: 'hackernews', text: 'Hackernews' },
+          { value: 'warhammer', text: 'Warhammer' },
+        ]"
+        :active="activeTab"
+        @click="activeTab = $event"
+      /> -->
+      <THackernews />
+    </div>
+
+    <TWallpaper />
   </main>
 </template>
 

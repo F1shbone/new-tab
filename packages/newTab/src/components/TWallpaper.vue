@@ -19,8 +19,7 @@ const dataURL = computed(() => {
     />
     <t-wallpaper-default fullscreen v-else />
 
-    <div
-      class="absolute top-0 bottom-0 left-0 right-0 bg-white/15 dark:bg-black/20 backdrop-blur"
-    />
+    <!-- <div class="absolute top-0 bottom-0 left-0 right-0 backdrop-blur-sm" /> -->
+    <!-- <div class="absolute top-0 bottom-0 left-0 right-0 backdrop-blur-sm bg-white/15 dark:bg-black/20" /> -->
   </div>
 </template>
