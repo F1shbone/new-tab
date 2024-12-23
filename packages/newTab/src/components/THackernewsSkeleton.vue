@@ -2,14 +2,14 @@
 import { RiChat1Line, RiLink } from '@remixicon/vue'
 import { ref } from 'vue'
 
-const width = ref(Math.random() * 151 + 250)
+const width = ref(Math.random() * 21 + 70)
 </script>
 
 <template>
   <div role="status" class="block p-2 my-2 transition-colors animate-pulse">
     <div class="flex items-start gap-4">
       <div class="grow">
-        <div class="h-4 mb-3 bg-gray-700 rounded-full" :style="`width: ${width}px`" />
+        <div class="h-4 mb-3 bg-gray-700 rounded-full" :style="`width: ${width}%`" />
         <h5 class="flex items-center gap-2 my-1 text-xs">
           <RiLink class="w-4 h-4 shrink-0" />
           <div class="h-2 bg-gray-700 rounded-full grow" />

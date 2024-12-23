@@ -47,7 +47,7 @@ onFetchResponse(async () => {
 </script>
 
 <template>
-  <TCard :isFetching="isFetching" :isError="error" :isEmpty="mtg.sets.length === 0">
+  <TCard :isError="error" :isEmpty="mtg.sets.length === 0">
     <template #title>Scryfall</template>
     <template #error>
       <p>{{ data?.details }}</p>
@@ -55,25 +55,37 @@ onFetchResponse(async () => {
     </template>
     <template #empty>No upcoming sets found</template>
     <div class="flex flex-col-reverse">
-      <a
-        v-for="set in mtg.sets"
-        :key="set.id"
-        :href="`${set.scryfall_uri}?order=spoiled`"
-        target="_blank"
-        class="flex items-center gap-4 p-2 mt-2 rounded-lg hover:bg-gray-500/30"
-      >
-        <div class="grow">
-          <h4 class="flex gap-2 text-xl">
-            {{ set.name }}
-            <span class="mt-1 font-mono text-base text-orange-700">({{ set.code }})</span>
-          </h4>
-          <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
-          <p class="text-sm text-gray-600">
-            Release Date: {{ useDateFormat(set.released_at, 'DD.MM.YYYY') }}
-          </p>
+      <template v-if="isFetching">
+        <div role="status" class="flex items-center gap-4 p-2 mt-2 transition-colors animate-pulse">
+          <div class="grow">
+            <div class="h-5 mb-2 bg-gray-700 rounded-full w-80" />
+            <div class="h-3 mb-2 bg-gray-700 rounded-full w-60" />
+            <div class="h-2 mb-2 bg-gray-700 rounded-full w-52" />
+          </div>
+          <div class="w-8 h-8 bg-gray-700 rounded-full" />
         </div>
-        <img :src="set.icon_svg_uri" class="h-8 ml-2" />
-      </a>
+      </template>
+      <template v-else>
+        <a
+          v-for="set in mtg.sets"
+          :key="set.id"
+          :href="`${set.scryfall_uri}?order=spoiled`"
+          target="_blank"
+          class="flex items-center gap-4 p-2 mt-2 rounded-lg hover:bg-gray-500/30"
+        >
+          <div class="grow">
+            <h4 class="flex gap-2 text-xl">
+              {{ set.name }}
+              <span class="mt-1 font-mono text-base text-orange-700">({{ set.code }})</span>
+            </h4>
+            <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
+            <p class="text-sm text-gray-600">
+              Release Date: {{ useDateFormat(set.released_at, 'DD.MM.YYYY') }}
+            </p>
+          </div>
+          <img :src="set.icon_svg_uri" class="w-8 h-8" />
+        </a>
+      </template>
     </div>
   </TCard>
 </template>

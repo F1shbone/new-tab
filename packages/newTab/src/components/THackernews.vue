@@ -18,9 +18,9 @@ type HackernewsStory = {
   date: string
   title: string
   type: 'story'
-  url?: string
-  host?: string
-  path?: string
+  url?: string | undefined
+  host?: string | undefined
+  path?: string | undefined
 }
 
 const { isFetching, data, execute, error } = useFetch(async () => {
@@ -51,7 +51,7 @@ const { isFetching, data, execute, error } = useFetch(async () => {
 
 const sortBy = ref<'score' | 'time'>('score')
 const dataSorted = computed(() =>
-  (data.value ?? []).toSorted((a, b) => b[sortBy.value] - a[sortBy.value]),
+  [...(data.value ?? [])].sort((a, b) => b[sortBy.value] - a[sortBy.value]),
 )
 function toggleSortBy() {
   switch (sortBy.value) {

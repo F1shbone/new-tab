@@ -3,17 +3,18 @@ import { computed, ref } from 'vue'
 import { useDateFormat, useNow } from '@vueuse/core'
 import { RiEqualizerLine } from '@remixicon/vue'
 
+import TButton from './components/TButton.vue'
+import TModal from './components/TModal.vue'
+
 import TWallpaper from './components/TWallpaper.vue'
 import TMtgSpoilers from './components/TMtgSpoilers.vue'
 import TAlarmWatch from './components/TAlarmWatch.vue'
-
 import TBookmarks from './components/TBookmarks.vue'
 import THackernews from './components/THackernews.vue'
 import TWarhammer from './components/TWarhammer.vue'
-import TButton from './components/TButton.vue'
 
 const now = useNow()
-const currentTime = useDateFormat(now, 'HH:mm', { locales: 'de-DE' })
+const currentTime = useDateFormat(now, 'HH:mm')
 const currentDay = computed(() => {
   const day = now.value.getDate()
   const month = now.value.getMonth()
@@ -24,11 +25,12 @@ const currentDay = computed(() => {
   return `${dayName}, ${day}.${month}.${year}`
 })
 const activeTab = ref('hackernews')
+const customizeModal = ref(false)
 </script>
 
 <template>
   <main
-    class="w-screen h-screen grid xl:grid-cols-3 xl:gap-10 2xl:grid-cols-5 grid-rows-[7rem_1fr] 2xl:gap-4 p-4"
+    class="overscroll-contain w-screen h-screen grid xl:grid-cols-3 xl:gap-10 2xl:grid-cols-5 grid-rows-[7rem_1fr] 2xl:gap-4 p-4"
   >
     <h1
       class="text-right text-white select-none xl:col-start-2 2xl:col-start-4 text-7xl drop-shadow-xl"
@@ -43,7 +45,7 @@ const activeTab = ref('hackernews')
       <div class="flex flex-col gap-4 2xl:w-1/2">
         <TMtgSpoilers />
         <TAlarmWatch />
-        <TButton block variant="secondary" size="lg">
+        <TButton block variant="secondary" size="lg" @click="customizeModal = true">
           <RiEqualizerLine class="w-6 h-6" />
           Customize
         </TButton>
@@ -55,5 +57,10 @@ const activeTab = ref('hackernews')
     </div>
 
     <TWallpaper />
+
+    <TModal flush :isOpen="customizeModal" @close="customizeModal = false">
+      <template #title>Customise Dashboard</template>
+      <template #content>Settings!</template>
+    </TModal>
   </main>
 </template>

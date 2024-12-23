@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
+/* @ts-expect-error vueuse_wrong_type */
 import { useSound } from '@vueuse/sound'
 import { RiPlayFill } from '@remixicon/vue'
 import { RiPauseFill } from '@remixicon/vue'
