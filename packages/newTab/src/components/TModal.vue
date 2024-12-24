@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef, useId } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { RiCloseLine } from '@remixicon/vue'
 
+import TButton from './TButton.vue'
 import TCloseButton from './TCloseButton.vue'
 
 const props = defineProps({
@@ -16,7 +18,8 @@ const props = defineProps({
 })
 const emits = defineEmits(['close'])
 
-const target = ref(null)
+const target = useTemplateRef('target')
+const uid = useId()
 
 onClickOutside(target, () => {
   if (props.isOpen) {
@@ -26,25 +29,95 @@ onClickOutside(target, () => {
 </script>
 
 <template>
-  <input type="checkbox" :checked="isOpen" class="fixed w-0 h-0 opacity-0 appearance-none peer" />
   <div
-    class="fixed top-0 bottom-0 left-0 right-0 z-50 flex justify-center invisible overflow-y-hidden transition-all duration-200 opacity-0 pointer-events-none bg-black/50 backdrop-blur-sm overscroll-contain peer-checked:opacity-100 peer-checked:pointer-events-auto peer-checked:visible"
+    class="relative z-10"
+    :aria-labelledby="`modal-title-${uid}`"
+    role="dialog"
+    aria-modal="true"
   >
-    <div
-      class="absolute w-full max-w-5xl p-0 overflow-y-auto text-white transition-transform duration-200 -translate-y-1/2 bg-gray-800 rounded-lg shadow-xl overscroll-contain top-1/4 max-h-96"
-      ref="target"
+    <Transition
+      enter-active-class="duration-300 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
-      <TCloseButton @click="emits('close')" />
-      <h3 class="p-6 pb-3 text-2xl font-bold">
-        <slot name="title" />
-      </h3>
       <div
-        :class="{
-          'px-6 pb-6': !flush,
-        }"
-      >
-        <slot name="content" />
+        v-if="isOpen"
+        ref="target"
+        class="fixed inset-0 transition-opacity bg-gray-800/75"
+        :aria-hidden="isOpen"
+      />
+    </Transition>
+
+    <Transition name="modal">
+      <div v-if="isOpen" class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div
+          class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0"
+        >
+          <div
+            class="relative overflow-hidden text-left transition-all transform rounded-lg shadow-xl modal-transition__inner sm:my-8 sm:w-full sm:max-w-lg"
+          >
+            <div class="relative px-4 pt-5 pb-4 text-gray-300 bg-gray-800 sm:p-6 sm:pb-4">
+              <TButton
+                square
+                size="sm"
+                variant="link"
+                class="absolute top-2 right-2"
+                @click="emits('close')"
+              >
+                <RiCloseLine class="w-6 h-6" />
+              </TButton>
+              <h3 class="text-base font-semibold text-white" :id="`modal-title-${uid}`">
+                <slot name="title" />
+              </h3>
+              <div class="mt-2">
+                <slot name="content" />
+              </div>
+            </div>
+            <div
+              v-if="$slots['action-buttons']"
+              class="px-4 py-3 bg-gray-900 sm:flex sm:flex-row-reverse sm:px-6"
+            >
+              <slot name="action-buttons" />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
+
+<style>
+.modal-enter-active .modal-transition__inner {
+  @apply ease-out;
+  @apply duration-300;
+}
+.modal-enter-from .modal-transition__inner {
+  @apply opacity-0;
+  @apply translate-y-4;
+  @apply sm:translate-y-0;
+  @apply sm:scale-95;
+}
+.modal-enter-to .modal-transition__inner {
+  @apply opacity-100;
+  @apply translate-y-0;
+  @apply sm:scale-100;
+}
+.modal-leave-active .modal-transition__inner {
+  @apply ease-in;
+  @apply duration-200;
+}
+.modal-leave-from .modal-transition__inner {
+  @apply opacity-100;
+  @apply translate-y-0;
+  @apply sm:scale-100;
+}
+.modal-leave-to .modal-transition__inner {
+  @apply opacity-0;
+  @apply translate-y-4;
+  @apply sm:translate-y-0;
+  @apply sm:scale-95;
+}
+</style>

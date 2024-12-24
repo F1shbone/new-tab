@@ -103,7 +103,7 @@ function toggleSortBy() {
           }"
         >
           <div class="flex items-start gap-4">
-            <div class="grow">
+            <div class="overflow-hidden grow">
               <h4 class="text-xl">{{ item.title }}</h4>
               <h5 class="flex items-center gap-2 my-1 text-xs" v-if="item.url">
                 <RiLink class="w-4 h-4 shrink-0" />

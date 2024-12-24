@@ -4,6 +4,7 @@ withDefaults(
     block?: boolean
     variant?: 'primary' | 'secondary' | 'link'
     size?: 'sm' | 'md' | 'lg'
+    square?: boolean
   }>(),
   {
     block: false,
@@ -21,9 +22,12 @@ withDefaults(
       'bg-gray-800 text-white hover:bg-gray-900': variant === 'secondary',
       'hover:bg-orange-700/25': variant === 'link',
       'block justify-center': block,
-      'px-1 py-0.5': size === 'sm',
-      'px-2 py-1': size === 'md',
-      'px-6 py-3 text-lg': size === 'lg',
+      'px-1 py-0.5': size === 'sm' && !square,
+      'p-1': size === 'sm' && square,
+      'px-2 py-1': size === 'md' && !square,
+      'p-2': size === 'md' && square,
+      'px-6 py-3 text-lg': size === 'lg' && !square,
+      'p-3 text-lg': size === 'lg' && square,
     }"
   >
     <slot />

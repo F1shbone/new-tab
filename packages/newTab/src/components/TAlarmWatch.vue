@@ -24,7 +24,7 @@ const timers = ref([])
 <template>
   <TCard>
     <template #title>
-      <div class="flex items-center justify-between">
+      <div class="flex items-start justify-between">
         <span>AlarmWatch</span>
         <button
           class="flex items-center gap-1 p-2 mb-1 text-lg text-black rounded-lg bg-gray-500/15 hover:bg-gray-500/30"
