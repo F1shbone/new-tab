@@ -4,7 +4,6 @@ import { onClickOutside } from '@vueuse/core'
 import { RiCloseLine } from '@remixicon/vue'
 
 import TButton from './TButton.vue'
-import TCloseButton from './TCloseButton.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -43,11 +42,7 @@ onClickOutside(target, () => {
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 z-0 transition-opacity bg-gray-800/75"
-        :aria-hidden="isOpen"
-      />
+      <div v-if="isOpen" class="fixed inset-0 z-0 transition-opacity bg-gray-800/75" />
     </Transition>
 
     <Transition name="modal">

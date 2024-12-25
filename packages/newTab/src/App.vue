@@ -9,7 +9,7 @@ import TMtgSpoilers from './components/widgets/TMtgSpoilers.vue'
 import TAlarmWatch from './components/widgets/TAlarmWatch.vue'
 import TSettings from './components/widgets/TSettings.vue'
 import THackernews from './components/widgets/THackernews.vue'
-import TWarhammer from './components/TWarhammer.vue'
+import TWarhammer from './components/widgets/TWarhammer.vue'
 
 const now = useNow()
 const currentTime = useDateFormat(now, 'HH:mm')
