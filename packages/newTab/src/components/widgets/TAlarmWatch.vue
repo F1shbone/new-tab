@@ -2,8 +2,8 @@
 import { provide, ref } from 'vue'
 import { useIntervalFn } from '@vueuse/core'
 import { RiAddLine } from '@remixicon/vue'
-import TCard from './TCard.vue'
-import TTimer from './TTimer.vue'
+import TCard from '@/components/TCard.vue'
+import TTimer from '@/components/TTimer.vue'
 
 const timersFns: Array<() => void> = []
 useIntervalFn(() => {

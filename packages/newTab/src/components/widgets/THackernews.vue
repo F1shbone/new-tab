@@ -3,10 +3,10 @@ import { computed, ref } from 'vue'
 import { useDateFormat, useTimeAgo } from '@vueuse/core'
 import { RiChat1Line, RiLink, RiTimeLine, RiBardLine, RiRefreshLine } from '@remixicon/vue'
 
-import TButton from './TButton.vue'
-import TCard from './TCard.vue'
-import THackernewsSkeleton from './THackernewsSkeleton.vue'
-import { useFetch } from '../composables/useFetch'
+import TButton from '@/components/TButton.vue'
+import TCard from '@/components/TCard.vue'
+import THackernewsSkeleton from '@/components/THackernewsSkeleton.vue'
+import { useFetch } from '@/composables/useFetch'
 
 type HackernewsStory = {
   by: string

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TLoader from './TLoader.vue'
+import TLoader from '@/components/TLoader.vue'
 // import { useFetch } from '../composables/useFetch'
 
 // const { isFetching, data, execute } = useFetch(async () => {

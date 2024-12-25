@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useDateFormat, useNow } from '@vueuse/core'
-import { RiEqualizerLine } from '@remixicon/vue'
-
-import TButton from './components/TButton.vue'
-import TModal from './components/TModal.vue'
 
 import TWallpaper from './components/TWallpaper.vue'
-import TMtgSpoilers from './components/TMtgSpoilers.vue'
-import TAlarmWatch from './components/TAlarmWatch.vue'
-import TBookmarks from './components/TBookmarks.vue'
-import THackernews from './components/THackernews.vue'
+
+import TBookmarks from './components/widgets/TBookmarks.vue'
+import TMtgSpoilers from './components/widgets/TMtgSpoilers.vue'
+import TAlarmWatch from './components/widgets/TAlarmWatch.vue'
+import TSettings from './components/widgets/TSettings.vue'
+import THackernews from './components/widgets/THackernews.vue'
 import TWarhammer from './components/TWarhammer.vue'
 
 const now = useNow()
@@ -24,8 +22,6 @@ const currentDay = computed(() => {
   })
   return `${dayName}, ${day}.${month}.${year}`
 })
-const activeTab = ref('hackernews')
-const customizeModal = ref(false)
 </script>
 
 <template>
@@ -45,10 +41,7 @@ const customizeModal = ref(false)
       <div class="flex flex-col gap-4 2xl:w-1/2">
         <TMtgSpoilers />
         <TAlarmWatch />
-        <TButton block variant="secondary" size="lg" @click="customizeModal = true">
-          <RiEqualizerLine class="w-6 h-6" />
-          Customize
-        </TButton>
+        <TSettings />
       </div>
     </div>
 
@@ -57,10 +50,5 @@ const customizeModal = ref(false)
     </div>
 
     <TWallpaper />
-
-    <TModal flush :isOpen="customizeModal" @close="customizeModal = false">
-      <template #title>Customise Dashboard</template>
-      <template #content>Settings!</template>
-    </TModal>
   </main>
 </template>

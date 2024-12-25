@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TBookmark from './TBookmark.vue'
-import { useBookmarks } from '../composables/useBookmarks'
+import TBookmark from '@/components/TBookmark.vue'
+import { useBookmarks } from '@/composables/useBookmarks'
 
 const { bookmarks } = useBookmarks()
 </script>

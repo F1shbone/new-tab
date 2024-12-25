@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDateFormat, useFetch, useStorage } from '@vueuse/core'
-import TCard from './TCard.vue'
+import TCard from '@/components/TCard.vue'
 
 type Set = {
   code: string
