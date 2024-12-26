@@ -49,6 +49,13 @@ const { isFetching, data, execute, error } = useFetch(async () => {
   })
 })
 
+document.addEventListener('visibilitychange', (event) => {
+  if (document.visibilityState === 'visible') {
+    console.log('Tab is active')
+    execute()
+  }
+})
+
 const sortBy = ref<'score' | 'time'>('score')
 const dataSorted = computed(() =>
   [...(data.value ?? [])].sort((a, b) => b[sortBy.value] - a[sortBy.value]),
