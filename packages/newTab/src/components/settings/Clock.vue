@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
 import TRadio from '@/components/TRadio.vue'
 import TCheckbox from '@/components/TCheckbox.vue'
 import TListbox from '@/components/TListbox.vue'
 import TListboxItem from '@/components/TListboxItem.vue'
-import { ref } from 'vue'
 
-const clockFormat = ref('24-hours')
-const dateFormat = ref('DD.MM.YYYY')
-const showDayName = ref(true)
+import { useClockStore } from '@/stores/clock'
+
+const { timeFormat, _dateFormat, showDayName } = storeToRefs(useClockStore())
 </script>
 
 <template>
@@ -17,10 +18,19 @@ const showDayName = ref(true)
     <template #title>Clock Format</template>
 
     <TListboxItem flush>
-      <TRadio name="clockFormat" value="24-hours" v-model="clockFormat">24 Hours</TRadio>
+      <TRadio name="timeFormat" value="HH:mm" v-model="timeFormat">
+        <code>24 Hours</code>
+      </TRadio>
     </TListboxItem>
     <TListboxItem flush>
-      <TRadio name="clockFormat" value="12-hours" v-model="clockFormat">12 Hours</TRadio>
+      <TRadio name="timeFormat" value="hh:mm A" v-model="timeFormat">
+        <code>12 Hours</code>
+      </TRadio>
+    </TListboxItem>
+    <TListboxItem flush>
+      <TRadio name="timeFormat" value="" v-model="timeFormat">
+        <code>No Time</code>
+      </TRadio>
     </TListboxItem>
   </TListbox>
 
@@ -28,18 +38,23 @@ const showDayName = ref(true)
     <template #title>Date Format</template>
 
     <TListboxItem flush>
-      <TRadio name="dateFormat" value="DD.MM.YYYY" v-model="dateFormat">
+      <TRadio name="dateFormat" value="DD.MM.YYYY" v-model="_dateFormat">
         <code class="w-32">DD.MM.YYYY</code> (e.g. 14.01.2024)
       </TRadio>
     </TListboxItem>
     <TListboxItem flush>
-      <TRadio name="dateFormat" value="DD.MM.YY" v-model="dateFormat">
+      <TRadio name="dateFormat" value="DD.MM.YY" v-model="_dateFormat">
         <code class="w-32">DD.MM.YY</code> (e.g. 14.01.24)
       </TRadio>
     </TListboxItem>
     <TListboxItem flush>
-      <TRadio name="dateFormat" value="D.M.YY" v-model="dateFormat">
+      <TRadio name="dateFormat" value="D.M.YY" v-model="_dateFormat">
         <code class="w-32">D.M.YY</code> (e.g. 1.1.24)
+      </TRadio>
+    </TListboxItem>
+    <TListboxItem flush>
+      <TRadio name="dateFormat" value="" v-model="_dateFormat">
+        <code class="w-32">No Date</code>
       </TRadio>
     </TListboxItem>
   </TListbox>

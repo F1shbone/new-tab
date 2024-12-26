@@ -1,26 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-const model = defineModel<string | boolean>({
+const model = defineModel<boolean>({
   required: true,
-})
-
-const props = withDefaults(
-  defineProps<{
-    name: string
-    value?: string | boolean
-  }>(),
-  {
-    value: true,
-  },
-)
-
-const checked = computed(() => {
-  if (typeof model.value === 'string') {
-    return model.value === props.value
-  } else {
-    return model.value
-  }
 })
 </script>
 
@@ -29,10 +9,7 @@ const checked = computed(() => {
     <input
       type="checkbox"
       class="w-6 h-6 border border-gray-600 rounded-md appearance-none cursor-pointer v-checkbox bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
-      :name="name"
-      :value="value"
-      :checked="checked"
-      @input="model = value"
+      v-model="model"
     />
     <span class="flex items-center justify-between p-1 cursor-pointer select-none">
       <slot />

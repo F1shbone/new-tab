@@ -17,8 +17,10 @@
   },
   "dependencies": {
     "@remixicon/vue": "^4.5.0",
+    "@vueuse/core": "^12.2.0",
     "@vueuse/sound": "^2.0.1",
     "pinia": "^2.2.6",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "trianglify": "^4.1.1",
     "vue": "^3.5.13"
   },

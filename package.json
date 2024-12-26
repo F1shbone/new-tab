@@ -1,7 +1,6 @@
 {
   "name": "chromium-new-tab",
   "workspaces": [
-    "packages/newTab",
-    "packages/background"
+    "packages/newTab"
   ]
 }
