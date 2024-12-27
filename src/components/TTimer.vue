@@ -43,16 +43,24 @@ function onPlayPause() {
     paused.value = !paused.value
   }
 }
-function timerFn() {
+async function timerFn() {
   if (!paused.value && countdown.value > 0) {
     countdown.value--
   }
   if (countdown.value === 0) {
     emits('elapse')
+    unregisterTimer?.(timerId)
+    paused.value = false
+    await playSound()
+    await playSound()
+  }
+}
+async function playSound() {
+  return new Promise<void>((resolve) => {
     play()
     setTimeout(stop, 4000)
-    unregisterTimer?.(timerId)
-  }
+    setTimeout(resolve, 5000)
+  })
 }
 
 let timerId = -1
@@ -70,19 +78,12 @@ onBeforeUnmount(() => {
   <div class="flex items-center gap-2 p-2 my-1">
     <div class="grow">
       <h1 class="font-mono text-2xl">
-        <!-- style="
-          font-family:
-            Menlo,
-            Consolas,
-            Monaco,
-            Liberation Mono,
-            Lucida Console,
-            monospace;
-        " -->
-        {{ countdownDisplay }}
+        <template v-if="timer.elapsed">Elapsed</template>
+        <template v-else>{{ countdownDisplay }}</template>
       </h1>
     </div>
     <button
+      v-if="!timer.elapsed"
       class="p-1.5 w-8 h-8 transition-colors rounded-full hover:bg-orange-700/25"
       @click="onPlayPause"
     >

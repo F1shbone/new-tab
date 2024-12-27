@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { computed, provide, ref, useTemplateRef } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useIntervalFn, onKeyStroke } from '@vueuse/core'
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import { RiAddLine } from '@remixicon/vue'
 
 import TButton from '@/components/TButton.vue'
 import TCard from '@/components/TCard.vue'
 import TModal from '@/components/TModal.vue'
-import TTimeInput from '@/components/TTimeInput.vue'
 import TTimer, { type Timer } from '@/components/TTimer.vue'
+import TTimerInput from '@/components/TTimerInput.vue'
+
+import { useAlarmClockStore } from '@/stores/alarmclock'
+
+const alarmClockSettings = useAlarmClockStore()
 
 const timersFns: Array<() => void> = []
 useIntervalFn(() => {
@@ -26,23 +29,22 @@ provide('unregister', (id: number) => {
 const timerModal = ref(false)
 const timers = ref<Array<Timer>>([])
 
-const hours = ref(0)
-const minutes = ref(0)
-const seconds = ref(0)
+const hours = ref(alarmClockSettings.hours)
+const minutes = ref(alarmClockSettings.minutes)
+const seconds = ref(alarmClockSettings.seconds)
+
 const duration = computed(() => {
   return hours.value * 60 * 60 + minutes.value * 60 + seconds.value
 })
 
 function openModal() {
-  activate()
   timerModal.value = true
 }
 function closeModal() {
   timerModal.value = false
-  hours.value = 0
-  minutes.value = 0
-  seconds.value = 0
-  deactivate()
+  hours.value = alarmClockSettings.hours
+  minutes.value = alarmClockSettings.minutes
+  seconds.value = alarmClockSettings.seconds
 }
 
 function createTimer() {
@@ -56,15 +58,14 @@ function createTimer() {
 }
 
 onKeyStroke('Enter', () => {
-  createTimer()
+  if (timerModal.value) {
+    createTimer()
+  }
 })
-
-const timeForm = useTemplateRef('timeForm')
-const { activate, deactivate } = useFocusTrap(timeForm, { immediate: true })
 </script>
 
 <template>
-  <TCard flushTitle>
+  <TCard flushTitle :isEmpty="timers.length === 0">
     <template #title>
       <h2 class="ml-2 text-base tracking-tight text-orange-700 uppercase grow">Alarmclock</h2>
     </template>
@@ -76,46 +77,39 @@ const { activate, deactivate } = useFocusTrap(timeForm, { immediate: true })
         </div>
       </TButton>
     </template>
-    <template v-for="(timer, i) in timers" :key="i">
-      <TTimer :timer="timer" @elapse="timer.elapsed = true" @delete="timers.splice(i, 1)" />
-    </template>
-    <div v-if="timers.length === 0">
-      <h4 class="ml-2 text-xl font-thin">No Timers</h4>
-    </div>
+    <template #empty>No Timers</template>
 
-    <TModal :isOpen="timerModal" size="sm" @close="closeModal()">
-      <template #title>New Timer</template>
-      <template #content>
-        <div class="flex items-center justify-center" ref="timeForm">
-          <TTimeInput v-model="hours" focus>{{
-            hours > 1 || hours === 0 ? 'Hours' : 'Hour'
-          }}</TTimeInput>
-          <TTimeInput v-model="minutes">{{
-            minutes > 1 || minutes === 0 ? 'Minutes' : 'Minute'
-          }}</TTimeInput>
-          <TTimeInput v-model="seconds">{{
-            seconds > 1 || seconds === 0 ? 'Seconds' : 'Second'
-          }}</TTimeInput>
-        </div>
-        <Transition
-          enter-active-class="duration-300 ease-out"
-          enter-from-class="transform opacity-0"
-          enter-to-class="opacity-100"
-          leave-active-class="duration-200 ease-in"
-          leave-from-class="opacity-100"
-          leave-to-class="transform opacity-0"
-        >
-          <p v-if="duration === 0" class="mt-4 text-red-700">
-            Can't create timer with a duration of <code>00:00:00</code>
-          </p>
-        </Transition>
-      </template>
-      <template #action-buttons>
-        <TButton @click="createTimer()" :disabled="duration === 0">Create</TButton>
-        <TButton variant="link" class="text-gray-400 hover:text-white" @click="closeModal()"
-          >Cancel</TButton
-        >
-      </template>
-    </TModal>
+    <TTimer
+      v-for="(timer, i) in timers"
+      :key="i"
+      :timer="timer"
+      @elapse="timer.elapsed = true"
+      @delete="timers.splice(i, 1)"
+    />
   </TCard>
+
+  <TModal :isOpen="timerModal" size="sm" @close="closeModal">
+    <template #title>New Timer</template>
+    <template #content>
+      <TTimerInput v-model:hours="hours" v-model:minutes="minutes" v-model:seconds="seconds" />
+      <Transition
+        enter-active-class="duration-300 ease-out"
+        enter-from-class="transform opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="duration-200 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="transform opacity-0"
+      >
+        <p v-if="duration === 0" class="mt-4 text-center text-red-700">
+          Can't create timer with a duration of <code>00:00:00</code>
+        </p>
+      </Transition>
+    </template>
+    <template #action-buttons>
+      <TButton @click="createTimer" :disabled="duration === 0">Create</TButton>
+      <TButton variant="link" class="text-gray-400 hover:text-white" @click="closeModal"
+        >Cancel</TButton
+      >
+    </template>
+  </TModal>
 </template>

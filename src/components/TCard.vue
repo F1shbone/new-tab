@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TEmpty from './TEmpty.vue'
 import TLoader from './TLoader.vue'
 
 defineProps<{
@@ -35,9 +34,9 @@ defineProps<{
     <div v-else-if="isError" class="p-2">
       <slot name="error" />
     </div>
-    <TEmpty v-else-if="isEmpty">
-      <slot name="empty" />
-    </TEmpty>
+    <div v-else-if="isEmpty">
+      <h4 class="ml-2 text-xl font-thin"><slot name="empty" /></h4>
+    </div>
     <template v-else>
       <slot />
     </template>
