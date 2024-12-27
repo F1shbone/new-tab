@@ -7,10 +7,15 @@ import { RiPauseFill } from '@remixicon/vue'
 import { RiDeleteBin2Fill } from '@remixicon/vue'
 import buttonSfx from '../assets/alert.mp3'
 
+export type Timer = {
+  duration: number
+  elapsed: boolean
+}
+
 const props = defineProps<{
-  timer: number
+  timer: Timer
 }>()
-const emits = defineEmits(['delete'])
+const emits = defineEmits(['delete', 'elapse'])
 const registerTimer = inject<(e: () => void) => number>('register')
 const unregisterTimer = inject<(e: number) => void>('unregister')
 
@@ -19,7 +24,7 @@ const { play, stop } = useSound(buttonSfx, {
 })
 
 const paused = ref(false)
-const countdown = ref(props.timer)
+const countdown = ref(props.timer.duration)
 const countdownDisplay = computed(() => {
   const seconds = countdown.value
   const hours = Math.floor(seconds / 3600)
@@ -34,13 +39,16 @@ const countdownDisplay = computed(() => {
 })
 
 function onPlayPause() {
-  paused.value = !paused.value
+  if (!props.timer.elapsed) {
+    paused.value = !paused.value
+  }
 }
 function timerFn() {
   if (!paused.value && countdown.value > 0) {
     countdown.value--
   }
   if (countdown.value === 0) {
+    emits('elapse')
     play()
     setTimeout(stop, 4000)
     unregisterTimer?.(timerId)
@@ -49,7 +57,7 @@ function timerFn() {
 
 let timerId = -1
 onMounted(() => {
-  if (registerTimer) {
+  if (registerTimer && !props.timer.elapsed) {
     timerId = registerTimer(timerFn)
   }
 })
@@ -61,9 +69,8 @@ onBeforeUnmount(() => {
 <template>
   <div class="flex items-center gap-2 p-2 my-1">
     <div class="grow">
-      <h1
-        class="text-3xl"
-        style="
+      <h1 class="font-mono text-2xl">
+        <!-- style="
           font-family:
             Menlo,
             Consolas,
@@ -71,20 +78,22 @@ onBeforeUnmount(() => {
             Liberation Mono,
             Lucida Console,
             monospace;
-        "
-      >
+        " -->
         {{ countdownDisplay }}
       </h1>
     </div>
-    <button class="p-2 transition-colors rounded-full hover:bg-gray-500/30" @click="onPlayPause">
-      <RiPlayFill v-if="paused" class="w-8 h-8" />
-      <RiPauseFill v-else class="w-8 h-8" />
+    <button
+      class="p-1.5 w-8 h-8 transition-colors rounded-full hover:bg-orange-700/25"
+      @click="onPlayPause"
+    >
+      <RiPlayFill v-if="paused" class="w-full h-full" />
+      <RiPauseFill v-else class="w-full h-full" />
     </button>
     <button
-      class="p-3 transition-colors rounded-full hover:bg-red-600/75 hover:text-white"
+      class="p-1.5 w-8 h-8 transition-colors rounded-full hover:bg-red-600 hover:text-white"
       @click="emits('delete')"
     >
-      <RiDeleteBin2Fill class="w-6 h-6" />
+      <RiDeleteBin2Fill class="w-full h-full" />
     </button>
   </div>
 </template>
