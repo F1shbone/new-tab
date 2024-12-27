@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useClockStore = defineStore(
-  'clock',
+  'cnt-settings-clock',
   () => {
     const timeFormat = ref('HH:mm')
 
