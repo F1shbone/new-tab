@@ -7,6 +7,7 @@ defineProps<{
   isError?: boolean
   isEmpty?: boolean
   flush?: boolean
+  flushTitle?: boolean
 }>()
 </script>
 
@@ -17,8 +18,15 @@ defineProps<{
       'p-2': !flush,
     }"
   >
-    <div v-if="$slots.title">
-      <h2 class="mx-2 mt-2 tracking-tight text-orange-700 uppercase"><slot name="title" /></h2>
+    <div
+      v-if="$slots.title || $slots.action"
+      class="flex items-center pb-2 t-card-title"
+      :class="{
+        'pt-2 px-2': !flushTitle,
+      }"
+    >
+      <slot name="title" />
+      <slot name="action" />
     </div>
 
     <div v-if="isFetching" class="flex justify-center">
@@ -35,3 +43,9 @@ defineProps<{
     </template>
   </div>
 </template>
+
+<style>
+.t-card-title {
+  font-size: 16px;
+}
+</style>

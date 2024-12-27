@@ -8,7 +8,7 @@ const model = defineModel<boolean>({
   <label class="flex items-center gap-3 px-3 py-2 cursor-pointer">
     <input
       type="checkbox"
-      class="w-6 h-6 border border-gray-600 rounded-md appearance-none cursor-pointer v-checkbox bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
+      class="w-6 h-6 border border-gray-600 rounded-md appearance-none cursor-pointer t-checkbox bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
       v-model="model"
     />
     <span class="flex items-center justify-between p-1 cursor-pointer select-none">
@@ -18,7 +18,7 @@ const model = defineModel<boolean>({
 </template>
 
 <style>
-.v-checkbox:checked {
+.t-checkbox:checked {
   --chkbg: #f97316;
   --chkfg: #1f2937;
   background-image: linear-gradient(-45deg, transparent 66%, var(--chkbg) 66.99%),

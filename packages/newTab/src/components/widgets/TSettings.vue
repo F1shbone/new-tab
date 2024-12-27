@@ -22,7 +22,7 @@ import ScryfallSettings from '@/components/settings/Scryfall.vue'
 import AlarmclockSettings from '@/components/settings/Alarmclock.vue'
 
 const settingsModal = ref(false)
-const active = shallowRef(ClockSettings)
+const active = shallowRef(BookmarkSettings)
 </script>
 
 <template>

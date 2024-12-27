@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { useDateFormat, useFetch, useStorage } from '@vueuse/core'
+import { useDateFormat, useStorage } from '@vueuse/core'
+import { RiRefreshLine } from '@remixicon/vue'
+
+import TButton from '@/components/TButton.vue'
 import TCard from '@/components/TCard.vue'
+import { useFetch } from '@/composables/useFetch'
 
 type Set = {
   code: string
@@ -18,18 +22,23 @@ type Set = {
 }
 
 const mtg = useStorage<{ sets: Array<Set> }>('cnt-mtg-spoilers', { sets: [] })
-const { isFetching, error, data, onFetchResponse } = useFetch('https://api.scryfall.com/sets')
-  .get()
-  .json<{
-    object: string
-    has_more: boolean
-    data: Array<Set>
-    code?: string
-    status?: number
-    details?: string
-  }>()
+const { isFetching, error, data, onExecuteResponse, execute } = useFetch<{
+  object: string
+  has_more: boolean
+  data: Array<Set>
+  code?: string
+  status?: number
+  details?: string
+}>(async () => {
+  const response = await fetch('https://api.scryfall.com/sets')
+  if (!response.ok) {
+    throw new Error('Could not load Scryfall set information')
+  }
 
-onFetchResponse(async () => {
+  return await response.json()
+})
+
+onExecuteResponse(async () => {
   const response = data.value?.data.filter((e) => {
     return (
       new Date(e.released_at) > new Date() &&
@@ -47,13 +56,24 @@ onFetchResponse(async () => {
 </script>
 
 <template>
-  <TCard :isError="error" :isEmpty="mtg.sets.length === 0">
-    <template #title>Scryfall</template>
+  <TCard :isError="error" :isEmpty="mtg.sets.length === 0" flushTitle>
+    <template #title>
+      <h2 class="ml-2 text-base tracking-tight text-orange-700 uppercase grow">Scryfall</h2>
+    </template>
+    <template #action>
+      <TButton variant="link" @click="execute">
+        Refresh
+        <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
+          <RiRefreshLine class="w-4 h-4" />
+        </div>
+      </TButton>
+    </template>
     <template #error>
       <p>{{ data?.details }}</p>
       <p class="text-sm text-gray-600">{{ data?.status }} - {{ data?.code }}</p>
     </template>
     <template #empty>No upcoming sets found</template>
+
     <div class="flex flex-col-reverse">
       <template v-if="isFetching">
         <div role="status" class="flex items-center gap-4 p-2 mt-2 transition-colors animate-pulse">
@@ -67,11 +87,14 @@ onFetchResponse(async () => {
       </template>
       <template v-else>
         <a
-          v-for="set in mtg.sets"
+          v-for="(set, i) in mtg.sets"
           :key="set.id"
           :href="`${set.scryfall_uri}?order=spoiled`"
           target="_blank"
-          class="flex items-center gap-4 p-2 mt-2 rounded-lg hover:bg-gray-500/30"
+          class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-500/30"
+          :class="{
+            'mt-2': i < mtg.sets.length - 1,
+          }"
         >
           <div class="grow">
             <h4 class="flex gap-2 text-xl">

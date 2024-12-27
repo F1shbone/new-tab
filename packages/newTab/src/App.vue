@@ -3,8 +3,8 @@ import TWallpaper from './components/TWallpaper.vue'
 
 import TClock from './components/widgets/TClock.vue'
 import TBookmarks from './components/widgets/TBookmarks.vue'
-import TMtgSpoilers from './components/widgets/TMtgSpoilers.vue'
-import TAlarmWatch from './components/widgets/TAlarmWatch.vue'
+import TScryfall from './components/widgets/TScryfall.vue'
+import TAlarmClock from './components/widgets/TAlarmClock.vue'
 import TSettings from './components/widgets/TSettings.vue'
 import THackernews from './components/widgets/THackernews.vue'
 import TWarhammer from './components/widgets/TWarhammer.vue'
@@ -20,8 +20,8 @@ import TWarhammer from './components/widgets/TWarhammer.vue'
       <TBookmarks />
 
       <div class="flex flex-col gap-4 2xl:w-1/2">
-        <TMtgSpoilers />
-        <TAlarmWatch />
+        <TScryfall />
+        <TAlarmClock />
         <TSettings />
       </div>
     </div>

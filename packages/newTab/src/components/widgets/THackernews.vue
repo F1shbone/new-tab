@@ -76,8 +76,11 @@ function toggleSortBy() {
 
 <template>
   <TCard flush class="flex flex-col h-full overflow-hidden">
-    <div class="flex items-end p-2 my-2">
-      <h2 class="ml-2 text-4xl font-bold tracking-tight grow">Hackernews</h2>
+    <!-- <div class="flex items-end p-2 my-2"> -->
+    <template #title>
+      <h2 class="my-2 ml-2 text-4xl font-bold tracking-tight grow">Hackernews</h2>
+    </template>
+    <template #action>
       <TButton variant="link" @click="execute">
         <span class="hidden 2xl:block">Refresh</span>
         <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
@@ -91,7 +94,8 @@ function toggleSortBy() {
           <RiBardLine v-if="sortBy === 'score'" class="w-4 h-4" />
         </div>
       </TButton>
-    </div>
+    </template>
+
     <div class="max-h-full px-2 overflow-auto grow">
       <div v-if="isFetching" class="h-full">
         <THackernewsSkeleton v-for="i in Array(15)" :key="i" />

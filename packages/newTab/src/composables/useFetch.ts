@@ -10,6 +10,7 @@ export function useFetch<T>(
   const isFetching = ref(false)
   const isFinished = ref(false)
   const error = ref(undefined)
+  const executeCBs: Array<() => Promise<void>> = []
   const execute = () => {
     isFetching.value = true
     isFinished.value = false
@@ -19,6 +20,9 @@ export function useFetch<T>(
       .then((result) => {
         data.value = result
       })
+      .then(() => {
+        executeCBs.forEach((e) => e())
+      })
       .catch((e) => {
         data.value = undefined
         error.value = e
@@ -27,6 +31,9 @@ export function useFetch<T>(
         isFetching.value = false
         isFinished.value = true
       })
+  }
+  const onExecuteResponse = async (cb: () => Promise<void>) => {
+    executeCBs.push(cb)
   }
 
   if (options.immediate) {
@@ -39,5 +46,6 @@ export function useFetch<T>(
     isFinished,
     error,
     execute,
+    onExecuteResponse,
   }
 }

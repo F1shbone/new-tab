@@ -2,6 +2,8 @@
 import { provide, ref } from 'vue'
 import { useIntervalFn } from '@vueuse/core'
 import { RiAddLine } from '@remixicon/vue'
+
+import TButton from '@/components/TButton.vue'
 import TCard from '@/components/TCard.vue'
 import TTimer from '@/components/TTimer.vue'
 
@@ -22,17 +24,17 @@ const timers = ref([])
 </script>
 
 <template>
-  <TCard>
+  <TCard flushTitle>
     <template #title>
-      <div class="flex items-start justify-between">
-        <span>AlarmWatch</span>
-        <button
-          class="flex items-center gap-1 p-2 mb-1 text-lg text-black rounded-lg bg-gray-500/15 hover:bg-gray-500/30"
-        >
-          <RiAddLine />
-          New Timer
-        </button>
-      </div>
+      <h2 class="ml-2 text-base tracking-tight text-orange-700 uppercase grow">Alarmclock</h2>
+    </template>
+    <template #action>
+      <TButton variant="link">
+        New Timer
+        <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
+          <RiAddLine class="w-4 h-4" />
+        </div>
+      </TButton>
     </template>
     <template v-for="(timer, i) in timers" :key="i">
       <TTimer :timer="timer" />

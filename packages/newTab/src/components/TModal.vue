@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, useTemplateRef, useId } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { useTemplateRef, useId } from 'vue'
+import { onKeyStroke, onClickOutside } from '@vueuse/core'
 import { RiCloseLine } from '@remixicon/vue'
 
 import TButton from './TButton.vue'
@@ -21,6 +21,11 @@ const target = useTemplateRef('target')
 const uid = useId()
 
 onClickOutside(target, () => {
+  if (props.isOpen) {
+    emits('close')
+  }
+})
+onKeyStroke('Escape', () => {
   if (props.isOpen) {
     emits('close')
   }

@@ -28,7 +28,7 @@ const checked = computed(() => {
   <label class="flex items-center gap-3 px-3 py-2 cursor-pointer">
     <input
       type="radio"
-      class="w-6 h-6 border border-gray-600 rounded-full appearance-none cursor-pointer v-radio bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
+      class="w-6 h-6 border border-gray-600 rounded-full appearance-none cursor-pointer t-radio bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
       :name="name"
       :value="value"
       :checked="checked"
@@ -41,7 +41,7 @@ const checked = computed(() => {
 </template>
 
 <style>
-.v-radio {
+.t-radio {
   --basebg: #1f2937;
   box-shadow:
     0 0 0 3px var(--basebg) inset,
