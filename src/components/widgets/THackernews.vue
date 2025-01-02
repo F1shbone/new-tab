@@ -81,13 +81,13 @@ function toggleSortBy() {
       <h2 class="my-2 ml-2 text-4xl font-bold tracking-tight grow">Hackernews</h2>
     </template>
     <template #action>
-      <TButton variant="link" @click="execute">
+      <TButton variant="link" @click="execute" class="max-2xl:!p-1 mr-1 2xl:mr-0">
         <span class="hidden 2xl:block">Refresh</span>
         <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
           <RiRefreshLine class="w-4 h-4" />
         </div>
       </TButton>
-      <TButton variant="link" @click="toggleSortBy">
+      <TButton variant="link" @click="toggleSortBy" class="max-2xl:!p-1">
         <span class="hidden 2xl:block">Sort by</span>
         <div class="w-7 h-7 p-1.5 text-white bg-orange-700 rounded-full">
           <RiTimeLine v-if="sortBy === 'time'" class="w-4 h-4" />

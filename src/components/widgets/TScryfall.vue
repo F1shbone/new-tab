@@ -91,7 +91,7 @@ onExecuteResponse(async () => {
           :key="set.id"
           :href="`${set.scryfall_uri}?order=spoiled`"
           target="_blank"
-          class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-500/30"
+          class="flex items-center gap-4 p-2 transition-colors rounded-lg hover:bg-gray-500/30"
           :class="{
             'mt-2': i < mtg.sets.length - 1,
           }"

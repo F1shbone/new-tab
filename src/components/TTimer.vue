@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex items-center gap-2 p-2 my-1">
+  <div class="flex items-center gap-2 p-2 my-1 transition-colors rounded-lg hover:bg-gray-500/30">
     <div class="grow">
       <h1 class="font-mono text-2xl">
         <template v-if="timer.elapsed">Elapsed</template>
