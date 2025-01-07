@@ -35,7 +35,9 @@ defineProps<{
       <slot name="error" />
     </div>
     <div v-else-if="isEmpty">
-      <h4 class="ml-2 text-xl font-thin"><slot name="empty" /></h4>
+      <h4 class="flex flex-col items-center text-xl font-thin">
+        <slot name="empty" />
+      </h4>
     </div>
     <template v-else>
       <slot />

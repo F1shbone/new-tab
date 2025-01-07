@@ -58,7 +58,7 @@ onExecuteResponse(async () => {
 <template>
   <TCard :isError="error" :isEmpty="mtg.sets.length === 0" flushTitle>
     <template #title>
-      <h2 class="ml-2 text-base tracking-tight text-orange-700 uppercase grow">Scryfall</h2>
+      <h2 class="ml-2 text-2xl font-bold tracking-tight grow">Scryfall</h2>
     </template>
     <template #action>
       <TButton variant="link" @click="execute">
@@ -72,7 +72,26 @@ onExecuteResponse(async () => {
       <p>{{ data?.details }}</p>
       <p class="text-sm text-gray-600">{{ data?.status }} - {{ data?.code }}</p>
     </template>
-    <template #empty>No upcoming sets found</template>
+    <template #empty>
+      <!-- https://duoicons.vercel.app/ -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="66"
+        height="66"
+        viewBox="0 0 24 24"
+        class="opacity-65"
+      >
+        <path
+          fill="#a8a29e99"
+          d="m13.299 3.148 8.634 14.954a1.5 1.5 0 0 1-1.299 2.25H3.366a1.5 1.5 0 0 1-1.299-2.25l8.634-14.954c.577-1 2.02-1 2.598 0Z"
+        />
+        <path
+          fill="#c2410c"
+          d="M12 8a1 1 0 0 0-.993.883L11 9v4a1 1 0 0 0 1.993.117L13 13V9a1 1 0 0 0-1-1Zm0 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"
+        />
+      </svg>
+      No upcoming sets found
+    </template>
 
     <div class="flex flex-col-reverse">
       <template v-if="isFetching">
@@ -99,7 +118,9 @@ onExecuteResponse(async () => {
           <div class="grow">
             <h4 class="flex gap-2 text-xl">
               {{ set.name }}
-              <span class="mt-1 font-mono text-base text-orange-700">({{ set.code }})</span>
+              <span class="mt-1 font-mono text-base text-orange-700 uppercase"
+                >({{ set.code }})</span
+              >
             </h4>
             <p>New Cards: {{ set.updated }} / Spoiled: {{ set.card_count }}</p>
             <p class="text-sm text-gray-600">

@@ -76,7 +76,6 @@ function toggleSortBy() {
 
 <template>
   <TCard flush class="flex flex-col h-full overflow-hidden">
-    <!-- <div class="flex items-end p-2 my-2"> -->
     <template #title>
       <h2 class="my-2 ml-2 text-4xl font-bold tracking-tight grow">Hackernews</h2>
     </template>
@@ -107,7 +106,7 @@ function toggleSortBy() {
           :key="i"
           :href="`https://news.ycombinator.com/item?id=${item.id}`"
           target="_blank"
-          class="block p-2 transition-colors rounded-lg hover:bg-gray-500/30"
+          class="block p-2 transition-colors rounded-lg select-none hover:bg-gray-500/30"
           :class="{
             'my-2': i > 0,
             'mb-2': i === 0,
