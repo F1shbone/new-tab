@@ -12,7 +12,7 @@ const currentDate = useDateFormat(now, dateFormat, { locales: 'de-DE' })
 </script>
 
 <template>
-  <div>
+  <div class="sticky top-0">
     <h1 v-if="timeFormat" class="text-right text-white select-none text-7xl drop-shadow-xl">
       {{ currentTime }}
     </h1>

@@ -12,11 +12,13 @@ import TWarhammer from './components/widgets/TWarhammer.vue'
 
 <template>
   <main
-    class="container__base overscroll-contain overflow-y-auto w-screen h-screen grid grid-cols-3 grid-rows-[7rem_1fr] gap-4 p-4"
+    class="container__base overscroll-contain w-full h-full overflow-y-auto grid grid-cols-[1fr_16rem_33.3334%] grid-rows-[7rem_1fr] gap-4"
   >
-    <TClock class="container__clock col-start-2" />
+    <div class="col-start-2 row-span-2 container__clock">
+      <TClock />
+    </div>
 
-    <div class="flex flex-col justify-between row-span-2 row-start-1 gap-4  container__widgets">
+    <div class="flex flex-col justify-between row-span-2 row-start-1 gap-4 container__widgets">
       <TBookmarks />
 
       <div class="flex flex-col gap-4 widgets">
@@ -26,14 +28,13 @@ import TWarhammer from './components/widgets/TWarhammer.vue'
       </div>
     </div>
 
-    <div class="container__right col-start-3 row-span-2 row-start-1 ">
+    <div class="col-start-3 row-span-2 row-start-1 container__right">
       <THackernews />
     </div>
 
     <TWallpaper />
   </main>
 </template>
-
 
 <style>
 /* xl */
