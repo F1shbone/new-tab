@@ -2,7 +2,7 @@
 withDefaults(
   defineProps<{
     block?: boolean
-    variant?: 'primary' | 'secondary' | 'menu' | 'link'
+    variant?: 'primary' | 'secondary' | 'soft' | 'link'
     size?: 'sm' | 'md' | 'lg' | 'xl'
     square?: boolean
     round?: boolean
@@ -22,7 +22,7 @@ withDefaults(
     :class="{
       'bg-orange-700 hover:bg-orange-800 text-white': variant === 'primary',
       'bg-gray-800 hover:bg-gray-900 text-white': variant === 'secondary',
-      'bg-orange-700/20 hover:bg-orange-700/50 text-gray-800 hover:text-black': variant === 'menu',
+      'bg-orange-600/20 hover:bg-orange-600/50 text-gray-800 hover:text-black': variant === 'soft',
       'hover:bg-orange-700/25': variant === 'link',
       'w-full justify-center': block,
       rounded: !round && (size === 'sm' || size === 'md'),

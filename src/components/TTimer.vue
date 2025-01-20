@@ -2,9 +2,7 @@
 import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
 /* @ts-expect-error vueuse_wrong_type */
 import { useSound } from '@vueuse/sound'
-import { RiPlayFill } from '@remixicon/vue'
-import { RiPauseFill } from '@remixicon/vue'
-import { RiDeleteBin2Fill } from '@remixicon/vue'
+import { RiPlayFill, RiPauseFill, RiDeleteBin7Fill } from '@remixicon/vue'
 import buttonSfx from '../assets/alert.mp3'
 
 export type Timer = {
@@ -94,7 +92,7 @@ onBeforeUnmount(() => {
       class="p-1.5 w-8 h-8 transition-colors rounded-full hover:bg-red-600 hover:text-white"
       @click="emits('delete')"
     >
-      <RiDeleteBin2Fill class="w-full h-full" />
+      <RiDeleteBin7Fill class="w-full h-full" />
     </button>
   </div>
 </template>

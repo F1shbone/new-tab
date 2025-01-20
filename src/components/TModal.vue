@@ -102,7 +102,7 @@ onKeyStroke('Escape', () => {
               </div>
               <div
                 v-if="$slots['action-buttons']"
-                class="p-3 bg-gray-900 rounded-b-lg sm:gap-4 sm:flex sm:flex-row-reverse"
+                class="p-3 bg-gray-200 rounded-b-lg sm:gap-4 sm:flex sm:flex-row-reverse"
               >
                 <slot name="action-buttons" />
               </div>
