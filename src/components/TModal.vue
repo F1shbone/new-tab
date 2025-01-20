@@ -9,7 +9,7 @@ const props = withDefaults(
   defineProps<{
     isOpen: boolean
     flush?: boolean
-    size?: 'sm' | 'md' | 'lg'
+    size?: 'sm' | 'md' | 'lg' | '1/2' | '1/4' | '3/4'
   }>(),
   {
     flush: false,
@@ -64,10 +64,13 @@ onKeyStroke('Escape', () => {
                 'sm:max-w-4xl': size === 'lg',
                 'sm:max-w-2xl': size === 'md',
                 'sm:max-w-lg': size === 'sm',
+                'sm:max-w-1/2': size === '1/2',
+                'sm:max-w-1/4': size === '1/4',
+                'sm:max-w-3/4': size === '3/4',
               }"
             >
               <div
-                class="relative overflow-hidden text-gray-300 bg-gray-800 rounded-t-lg"
+                class="relative overflow-hidden text-gray-800 bg-white rounded-t-lg"
                 :class="{
                   'rounded-b-lg': !$slots['action-buttons'],
                   'px-4 pt-5 pb-4 sm:p-6 sm:pb-4': flush === false,

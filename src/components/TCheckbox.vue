@@ -20,7 +20,7 @@ const model = defineModel<boolean>({
 <style>
 .t-checkbox:checked {
   --chkbg: #f97316;
-  --chkfg: #1f2937;
+  --chkfg: #fff;
   background-image: linear-gradient(-45deg, transparent 66%, var(--chkbg) 66.99%),
     linear-gradient(45deg, transparent 77%, var(--chkbg) 77.99%),
     linear-gradient(-45deg, var(--chkbg) 41%, transparent 41.99%),

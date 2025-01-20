@@ -63,13 +63,13 @@ if (props.focus) {
       <input
         ref="tensEl"
         type="text"
-        class="min-w-0 px-3 py-2 font-mono text-center bg-transparent border border-gray-600 rounded-md outline-none grow focus:ring-2 focus:ring-orange-700"
+        class="min-w-0 px-3 py-2 font-mono text-center bg-transparent border border-gray-400 rounded-md outline-none grow focus:border-orange-500 focus:ring-2 focus:ring-orange-700"
         :value="tens"
         @input="checkNumber($event, 'tens')"
       />
       <input
         type="text"
-        class="min-w-0 px-3 py-2 font-mono text-center bg-transparent border border-gray-600 rounded-md outline-none grow focus:ring-2 focus:ring-orange-700"
+        class="min-w-0 px-3 py-2 font-mono text-center bg-transparent border border-gray-400 rounded-md outline-none grow focus:border-orange-500 focus:ring-2 focus:ring-orange-700"
         :value="ones"
         @input="checkNumber($event, 'ones')"
       />
