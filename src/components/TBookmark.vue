@@ -1,31 +1,44 @@
 <script setup lang="ts">
-defineProps({
-  name: {
-    type: String,
-    required: true,
+withDefaults(
+  defineProps<{
+    name: string
+    icon: string
+    element?: string
+    mode?: 'light' | 'dark'
+    invert?: boolean
+    noHover?: boolean
+  }>(),
+  {
+    element: () => 'a',
+    mode: 'light',
   },
-  icon: {
-    type: String,
-    required: true,
-  },
-  element: {
-    type: String,
-    default: () => 'a',
-  },
-})
+)
 </script>
 
 <template>
-  <!-- <render /> -->
   <component
     :is="element"
-    class="flex flex-col shrink-0 items-center justify-start w-20 m-1 p-[5px] rounded-lg h-28 hover:bg-gray-100/60 backdrop-blur-sm"
+    class="flex flex-col shrink-0 items-center justify-start w-20 m-1 p-[5px] rounded-lg h-28 backdrop-blur-sm"
+    :class="{
+      'hover:bg-gray-100/60': mode === 'light' && !noHover,
+      'hover:bg-gray-900/60': mode === 'dark' && !noHover,
+    }"
   >
-    <figure class="rounded-lg shadow-xl bg-gray-100/60">
+    <figure
+      class="rounded-lg shadow-xl"
+      :class="{
+        'bg-gray-100/60': mode === 'light',
+        'bg-gray-900/60': mode === 'dark',
+      }"
+    >
       <img :src="icon" class="p-4 w-[70px] h-[70px]" />
     </figure>
     <p
-      class="max-w-full pt-4 pb-2 overflow-hidden text-xs text-black text-ellipsis whitespace-nowrap text-shadow"
+      class="max-w-full pt-4 pb-2 overflow-hidden text-xs text-ellipsis whitespace-nowrap text-shadow"
+      :class="{
+        'text-black': mode === 'light' || (mode === 'dark' && invert),
+        'text-white': mode === 'dark' || (mode === 'light' && invert),
+      }"
     >
       {{ name }}
     </p>

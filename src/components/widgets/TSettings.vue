@@ -26,12 +26,12 @@ const active = shallowRef(BookmarkSettings)
 </script>
 
 <template>
-  <TButton block variant="secondary" size="lg" @click="settingsModal = true">
+  <TButton block variant="secondary" size="xl" @click="settingsModal = true">
     <RiEqualizerLine class="w-6 h-6" />
     Customize
   </TButton>
 
-  <TModal flush :isOpen="settingsModal" size="lg" @close="settingsModal = false">
+  <TModal flush :isOpen="settingsModal" size="1/2" @close="settingsModal = false">
     <template #content>
       <div class="flex gap-8">
         <TMenu title="Settings">
