@@ -8,6 +8,10 @@ import TAlarmClock from './components/widgets/TAlarmClock.vue'
 import TSettings from './components/widgets/TSettings.vue'
 import THackernews from './components/widgets/THackernews.vue'
 import TWarhammer from './components/widgets/TWarhammer.vue'
+
+import { useAlarmClockStore } from '@/stores/alarmclock'
+
+const alarmclock = useAlarmClockStore()
 </script>
 
 <template>
@@ -23,7 +27,7 @@ import TWarhammer from './components/widgets/TWarhammer.vue'
 
       <div class="flex flex-col gap-4 widgets">
         <TScryfall />
-        <TAlarmClock />
+        <TAlarmClock v-if="alarmclock.enabled" />
         <TSettings />
       </div>
     </div>

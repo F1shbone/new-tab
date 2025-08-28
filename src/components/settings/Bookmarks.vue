@@ -28,7 +28,7 @@ const { bookmarks } = useBookmarks()
       </TButton>
       <TCheckbox name="group1-name" hover tight :modelValue="false">Show Name</TCheckbox>
     </div>
-    <div class="flex gap-1">
+    <div class="flex flex-wrap gap-1">
       <div class="relative group" v-for="(bookmark, i) in bookmarks" :key="i">
         <TBookmark :name="bookmark.name" :icon="bookmark.favicon" element="div" />
         <div

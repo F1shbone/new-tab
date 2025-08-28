@@ -64,8 +64,8 @@ onKeyStroke('Escape', () => {
                 'sm:max-w-4xl': size === 'lg',
                 'sm:max-w-2xl': size === 'md',
                 'sm:max-w-lg': size === 'sm',
-                'sm:max-w-1/2': size === '1/2',
-                'sm:max-w-1/4': size === '1/4',
+                'sm:max-w-3/4 2xl:max-w-1/2': size === '1/2',
+                'sm:max-w-3/4 2xl:max-w-1/4': size === '1/4',
                 'sm:max-w-3/4': size === '3/4',
               }"
             >
