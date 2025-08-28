@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { nanoid } from 'nanoid'
 import {
   RiLayoutGridFill,
   RiBookmarkFill,
@@ -17,24 +18,34 @@ import TModal from '@/components/TModal.vue'
 
 import { type Bookmark, useBookmarks } from '@/composables/useBookmarks'
 
-const { bookmarks } = useBookmarks()
-
-const editModal = ref<{ visible: boolean; group?: string; bookmark?: Bookmark }>({
-  visible: false,
-})
-
 function clone<T>(obj: T) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-function overwriteBookmark(group: string, newBookmark: Bookmark) {
-  const groupIndex = bookmarks.value.groups.findIndex((g) => g.name === group)
+const { bookmarks } = useBookmarks()
+
+const editModal = ref<{ visible: boolean; groupId?: string; bookmark?: Bookmark }>({
+  visible: false,
+})
+function overwriteBookmark(groupId: string, newBookmark: Bookmark) {
+  const groupIndex = bookmarks.value.groups.findIndex((g) => g.id === groupId)
   const index = bookmarks.value.groups[groupIndex].bookmarks.findIndex(
     (b) => b.id === newBookmark.id,
   )
 
   bookmarks.value.groups[groupIndex].bookmarks[index] = newBookmark
   editModal.value = { visible: false }
+}
+
+const newGroupModal = ref<{ visible: boolean; name?: string }>({ visible: false })
+function createGroup(name: string) {
+  bookmarks.value.groups.push({
+    id: nanoid(),
+    name,
+    showName: false,
+    bookmarks: [],
+  })
+  newGroupModal.value = { visible: false }
 }
 </script>
 
@@ -45,7 +56,13 @@ function overwriteBookmark(group: string, newBookmark: Bookmark) {
     <div class="flex items-center gap-2 mb-2">
       <h4 class="font-thin tracking-tight text-gray-600 uppercase">{{ group.name }}</h4>
       <TButton variant="link" square size="sm"><RiPencilFill /></TButton>
-      <TButton variant="link" square size="sm" class="hover:text-red-500">
+      <TButton
+        variant="link"
+        square
+        size="sm"
+        class="hover:text-red-500"
+        @click="bookmarks.groups.splice(i, 1)"
+      >
         <RiDeleteBin7Fill />
       </TButton>
       <TCheckbox name="group1-name" hover tight v-model="group.showName">Show Name</TCheckbox>
@@ -72,7 +89,7 @@ function overwriteBookmark(group: string, newBookmark: Bookmark) {
             block
             rounded
             class="flex-grow"
-            @click="editModal = { visible: true, group: group.name, bookmark: clone(bookmark) }"
+            @click="editModal = { visible: true, groupId: group.id, bookmark: clone(bookmark) }"
           >
             <RiPencilFill />
           </TButton>
@@ -86,7 +103,12 @@ function overwriteBookmark(group: string, newBookmark: Bookmark) {
   </div>
 
   <div class="flex gap-4">
-    <TButton block size="lg" variant="secondary">
+    <TButton
+      block
+      size="lg"
+      variant="secondary"
+      @click="newGroupModal = { visible: true, name: '' }"
+    >
       <RiLayoutGridFill class="w-5 h-5" /> Add Group
     </TButton>
     <TButton block size="lg"><RiBookmarkFill class="w-5 h-5" /> New Bookmark</TButton>
@@ -107,9 +129,29 @@ function overwriteBookmark(group: string, newBookmark: Bookmark) {
         >Invert:</TCheckbox
       >
     </template>
-    <template #action-buttons v-if="editModal.group && editModal.bookmark">
-      <TButton block @click="overwriteBookmark(editModal.group, editModal.bookmark)">Save</TButton>
+    <template #action-buttons v-if="editModal.groupId && editModal.bookmark">
+      <TButton block @click="overwriteBookmark(editModal.groupId, editModal.bookmark)"
+        >Save</TButton
+      >
       <TButton block variant="link" @click="editModal = { visible: false }">Cancel</TButton>
+    </template>
+  </TModal>
+
+  <TModal :isOpen="newGroupModal.visible" size="sm" @close="newGroupModal = { visible: false }">
+    <template #title>Add new Group</template>
+    <template #content v-if="newGroupModal.name !== undefined">
+      <TTextInput v-model="newGroupModal.name" labelClass="w-24">Name:</TTextInput>
+      <Transition>
+        <span v-if="newGroupModal.name === ''" class="text-sm text-red-500"
+          >Name cannot be empty</span
+        >
+      </Transition>
+    </template>
+    <template #action-buttons v-if="newGroupModal.name !== undefined">
+      <TButton block :disabled="newGroupModal.name === ''" @click="createGroup(newGroupModal.name)"
+        >Save</TButton
+      >
+      <TButton block variant="link" @click="newGroupModal = { visible: false }">Cancel</TButton>
     </template>
   </TModal>
 </template>

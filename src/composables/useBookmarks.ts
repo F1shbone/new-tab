@@ -6,6 +6,7 @@ const VERSION = 2
 export type Bookmarks = {
   VERSION: number
   groups: Array<{
+    id: string
     name: string
     showName: boolean
     bookmarks: Array<Bookmark>
@@ -31,6 +32,7 @@ export function useBookmarks() {
       groups: [
         {
           name: 'Default',
+          id: nanoid(),
           showName: false,
           bookmarks: (bookmarks.value as unknown as Bookmark[]).map((b) => ({
             ...b,

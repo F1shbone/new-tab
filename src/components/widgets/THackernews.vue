@@ -51,7 +51,6 @@ const { isFetching, data, execute, error } = useFetch(async () => {
 
 document.addEventListener('visibilitychange', (event) => {
   if (document.visibilityState === 'visible') {
-    console.log('Tab is active')
     execute()
   }
 })
