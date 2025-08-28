@@ -2,7 +2,7 @@
 withDefaults(
   defineProps<{
     block?: boolean
-    variant?: 'primary' | 'secondary' | 'soft' | 'link'
+    variant?: 'primary' | 'secondary' | 'soft' | 'link' | 'plain'
     size?: 'sm' | 'md' | 'lg' | 'xl'
     square?: boolean
     round?: boolean
@@ -23,6 +23,7 @@ withDefaults(
       'bg-orange-700 hover:bg-orange-800 text-white': variant === 'primary',
       'bg-gray-800 hover:bg-gray-900 text-white': variant === 'secondary',
       'bg-orange-600/20 hover:bg-orange-600/50 text-gray-800 hover:text-black': variant === 'soft',
+      'hover:bg-white/75': variant === 'plain',
       'hover:bg-orange-700/25': variant === 'link',
       'w-full justify-center': block,
       rounded: !round && (size === 'sm' || size === 'md'),

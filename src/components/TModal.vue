@@ -21,11 +21,17 @@ const emits = defineEmits(['close'])
 const target = useTemplateRef('target')
 const uid = useId()
 
-onClickOutside(target, () => {
-  if (props.isOpen) {
-    emits('close')
-  }
-})
+onClickOutside(
+  target,
+  () => {
+    if (props.isOpen) {
+      emits('close')
+    }
+  },
+  {
+    ignore: ['.t-modal'],
+  },
+)
 onKeyStroke('Escape', () => {
   if (props.isOpen) {
     emits('close')
@@ -59,7 +65,7 @@ onKeyStroke('Escape', () => {
           >
             <div
               ref="target"
-              class="relative overflow-hidden text-left transition-all transform shadow-xl modal-transition__inner sm:my-8 sm:w-full"
+              class="relative overflow-hidden text-left transition-all transform shadow-xl t-modal modal-transition__inner sm:my-8 sm:w-full"
               :class="{
                 'sm:max-w-4xl': size === 'lg',
                 'sm:max-w-2xl': size === 'md',
@@ -85,11 +91,7 @@ onKeyStroke('Escape', () => {
                 >
                   <RiCloseLine class="w-6 h-6" />
                 </TButton>
-                <h3
-                  v-if="$slots.title"
-                  class="text-base font-semibold text-white"
-                  :id="`modal-title-${uid}`"
-                >
+                <h3 v-if="$slots.title" class="text-base font-semibold" :id="`modal-title-${uid}`">
                   <slot name="title" />
                 </h3>
                 <div

@@ -9,9 +9,17 @@ const props = withDefaults(
   defineProps<{
     name: string
     value?: string | boolean
+    tight?: boolean
+    flush?: boolean
+    reverse?: boolean
+    labelClass?: string
   }>(),
   {
     value: true,
+    hover: false,
+    tight: false,
+    flush: false,
+    labelClass: '',
   },
 )
 
@@ -25,7 +33,15 @@ const checked = computed(() => {
 </script>
 
 <template>
-  <label class="flex items-center gap-3 px-3 py-2 cursor-pointer">
+  <label
+    class="flex items-center cursor-pointer"
+    :class="{
+      'gap-3': !tight,
+      'gap-1': tight,
+      ' py-2': !flush,
+      'flex-row-reverse justify-end': reverse,
+    }"
+  >
     <input
       type="radio"
       class="w-6 h-6 border border-gray-400 rounded-full appearance-none cursor-pointer t-radio bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
@@ -34,7 +50,14 @@ const checked = computed(() => {
       :checked="checked"
       @input="model = value"
     />
-    <span class="flex items-center justify-between p-1 cursor-pointer select-none">
+    <span
+      class="flex items-center justify-between cursor-pointer select-none"
+      :class="{
+        'p-1': !tight,
+        'px-1': tight,
+        [labelClass]: labelClass !== '',
+      }"
+    >
       <slot />
     </span>
   </label>

@@ -3,10 +3,15 @@ withDefaults(
   defineProps<{
     hover?: boolean
     tight?: boolean
+    flush?: boolean
+    reverse?: boolean
+    labelClass?: string
   }>(),
   {
     hover: false,
     tight: false,
+    flush: false,
+    labelClass: '',
   },
 )
 const model = defineModel<boolean>({
@@ -16,16 +21,20 @@ const model = defineModel<boolean>({
 
 <template>
   <label
-    class="flex items-center rounded-lg cursor-pointer"
+    class="flex items-center cursor-pointer"
     :class="{
-      'gap-3 px-3 py-2': !tight,
-      'gap-1 p-1': tight,
-      'transition-colors hover:bg-orange-700/25': hover,
+      'gap-3': !tight,
+      'gap-1': tight,
+      ' py-2': !flush,
+      'flex-row-reverse justify-end': reverse,
     }"
   >
     <input
       type="checkbox"
       class="w-6 h-6 border border-gray-400 rounded-md appearance-none cursor-pointer t-checkbox bg-none checked:bg-orange-500 checked:border-orange-500 transition-color"
+      :class="{
+        'hover:bg-orange-500/25': hover,
+      }"
       v-model="model"
     />
     <span
@@ -33,6 +42,7 @@ const model = defineModel<boolean>({
       :class="{
         'p-1': !tight,
         'px-1': tight,
+        [labelClass]: labelClass !== '',
       }"
     >
       <slot />

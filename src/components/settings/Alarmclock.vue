@@ -14,9 +14,9 @@ const { hours, minutes, seconds, enabled } = storeToRefs(useAlarmClockStore())
   <h1 class="mb-8 text-4xl font-bold tracking-tight">Alarmclock</h1>
 
   <TListbox>
-    <TListboxItem flush>
-      <h4 class="mt-2 ml-3 font-thin tracking-tight text-gray-700 uppercase">General</h4>
-      <TCheckbox name="enabled" v-model="enabled">Enable Widget</TCheckbox>
+    <TListboxItem>
+      <h4 class="mb-2 -mt-2 font-thin tracking-tight text-gray-700 uppercase">General</h4>
+      <TCheckbox name="enabled" v-model="enabled" flush>Enable Widget</TCheckbox>
     </TListboxItem>
     <TListboxItem flush>
       <h4 class="mt-2 ml-3 font-thin tracking-tight text-gray-700 uppercase">Default Duration</h4>
