@@ -43,6 +43,7 @@ onExecuteResponse(async () => {
     return (
       new Date(e.released_at) > new Date() &&
       !e.digital &&
+      e.icon_svg_uri.indexOf('default.svg') === -1 &&
       (e.set_type === 'expansion' || e.set_type === 'masters')
     )
   })
@@ -50,9 +51,13 @@ onExecuteResponse(async () => {
   mtg.value.sets = response ?? []
   mtg.value.sets.forEach((e) => {
     const oldSet = oldSets.find((s) => s.id === e.id)
-    e.updated = e.card_count - (oldSet?.card_count ?? 0)
+    e.updated = e.card_count - (oldSet?.card_count ?? 0) + (oldSet?.updated ?? 0)
   })
 })
+
+function resetNewCards(set: Set) {
+  set.updated = 0
+}
 </script>
 
 <template>
@@ -114,6 +119,7 @@ onExecuteResponse(async () => {
           :class="{
             'mt-2': i < mtg.sets.length - 1,
           }"
+          @click="resetNewCards(set)"
         >
           <div class="grow">
             <h4 class="flex gap-2 text-xl">
