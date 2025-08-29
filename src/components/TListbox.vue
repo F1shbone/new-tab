@@ -12,10 +12,7 @@ withDefaults(
 </script>
 
 <template>
-  <h3
-    v-if="$slots.title"
-    class="mb-1 ml-3 font-thin tracking-tight text-gray-600 uppercase v-listbox-title"
-  >
+  <h3 v-if="$slots.title" class="mb-1 text-xl font-bold tracking-tight v-listbox-title">
     <slot name="title" />
   </h3>
   <ul

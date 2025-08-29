@@ -20,7 +20,7 @@ withDefaults(
   <button
     class="flex items-center gap-2 transition-colors"
     :class="{
-      'bg-orange-700 hover:bg-orange-800 text-white': variant === 'primary',
+      'bg-orange-500 hover:bg-orange-600 text-white': variant === 'primary',
       'bg-gray-800 hover:bg-gray-900 text-white': variant === 'secondary',
       'bg-orange-600/20 hover:bg-orange-600/50 text-gray-800 hover:text-black': variant === 'soft',
       'hover:bg-white/75': variant === 'plain',

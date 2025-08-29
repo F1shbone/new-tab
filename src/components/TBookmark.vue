@@ -31,13 +31,19 @@ withDefaults(
         'bg-gray-900/60': mode === 'dark',
       }"
     >
-      <img :src="icon" class="p-4 w-[70px] h-[70px]" />
+      <img
+        :src="icon"
+        class="p-4 w-[70px] h-[70px]"
+        :class="{
+          invert,
+        }"
+      />
     </figure>
     <p
       class="max-w-full pt-4 pb-2 overflow-hidden text-xs text-ellipsis whitespace-nowrap text-shadow"
       :class="{
-        'text-black': mode === 'light' || (mode === 'dark' && invert),
-        'text-white': mode === 'dark' || (mode === 'light' && invert),
+        'text-black': mode === 'light',
+        'text-white': mode === 'dark',
       }"
     >
       {{ name }}

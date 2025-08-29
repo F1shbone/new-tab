@@ -91,7 +91,11 @@ onKeyStroke('Escape', () => {
                 >
                   <RiCloseLine class="w-6 h-6" />
                 </TButton>
-                <h3 v-if="$slots.title" class="text-base font-semibold" :id="`modal-title-${uid}`">
+                <h3
+                  v-if="$slots.title"
+                  class="text-lg font-bold tracking-tight"
+                  :id="`modal-title-${uid}`"
+                >
                   <slot name="title" />
                 </h3>
                 <div

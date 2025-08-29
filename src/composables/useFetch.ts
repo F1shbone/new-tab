@@ -32,6 +32,11 @@ export function useFetch<T>(
         isFinished.value = true
       })
   }
+  const clearResults = () => {
+    data.value = undefined
+    error.value = undefined
+    isFinished.value = false
+  }
   const onExecuteResponse = async (cb: () => Promise<void>) => {
     executeCBs.push(cb)
   }
@@ -45,6 +50,7 @@ export function useFetch<T>(
     isFetching,
     isFinished,
     error,
+    clearResults,
     execute,
     onExecuteResponse,
   }

@@ -7,6 +7,7 @@ import {
   RiEqualizerLine,
   RiTimeLine,
   RiStackLine,
+  RiSunLine,
 } from '@remixicon/vue'
 
 import TButton from '@/components/TButton.vue'
@@ -20,6 +21,7 @@ import ClockSettings from '@/components/settings/Clock.vue'
 import HackernewsSettings from '@/components/settings/Hackernews.vue'
 import ScryfallSettings from '@/components/settings/Scryfall.vue'
 import AlarmclockSettings from '@/components/settings/Alarmclock.vue'
+import WeatherSettings from '@/components/settings/Weather.vue'
 
 const settingsModal = ref(false)
 const active = shallowRef(BookmarkSettings)
@@ -52,6 +54,10 @@ const active = shallowRef(BookmarkSettings)
           <TMenuItem :active="active === ScryfallSettings" @click="active = ScryfallSettings">
             <RiStackLine class="w-6 h-6" />
             Scryfall
+          </TMenuItem>
+          <TMenuItem :active="active === WeatherSettings" @click="active = WeatherSettings">
+            <RiSunLine class="w-6 h-6" />
+            Weather
           </TMenuItem>
           <TMenuItem :active="active === AlarmclockSettings" @click="active = AlarmclockSettings">
             <RiAlarmLine class="w-6 h-6" />

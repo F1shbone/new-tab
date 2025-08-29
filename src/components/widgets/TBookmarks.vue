@@ -17,6 +17,7 @@ const { bookmarks } = useBookmarks()
         :name="bookmark.name"
         :href="bookmark.url"
         :icon="bookmark.favicon"
+        :invert="bookmark.invert"
       />
     </div>
   </div>

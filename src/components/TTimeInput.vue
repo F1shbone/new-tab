@@ -55,10 +55,7 @@ if (props.focus) {
 </script>
 
 <template>
-  <label class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer">
-    <span class="flex items-center justify-between p-1 cursor-pointer select-none">
-      <slot />
-    </span>
+  <label class="flex flex-col items-center gap-3 px-3 cursor-pointer">
     <div class="flex w-24 gap-3">
       <input
         ref="tensEl"
@@ -74,5 +71,8 @@ if (props.focus) {
         @input="checkNumber($event, 'ones')"
       />
     </div>
+    <span class="flex items-center justify-between cursor-pointer select-none">
+      <slot />
+    </span>
   </label>
 </template>

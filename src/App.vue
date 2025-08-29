@@ -5,13 +5,16 @@ import TClock from './components/widgets/TClock.vue'
 import TBookmarks from './components/widgets/TBookmarks.vue'
 import TScryfall from './components/widgets/TScryfall.vue'
 import TAlarmClock from './components/widgets/TAlarmClock.vue'
+import TWeather from './components/widgets/TWeather.vue'
 import TSettings from './components/widgets/TSettings.vue'
 import THackernews from './components/widgets/THackernews.vue'
 import TWarhammer from './components/widgets/TWarhammer.vue'
 
 import { useAlarmClockStore } from '@/stores/alarmclock'
+import { useWeatherStore } from '@/stores/weather'
 
 const alarmclock = useAlarmClockStore()
+const weather = useWeatherStore()
 </script>
 
 <template>
@@ -27,6 +30,7 @@ const alarmclock = useAlarmClockStore()
 
       <div class="flex flex-col gap-4 widgets">
         <TScryfall />
+        <TWeather v-if="weather.enabled" />
         <TAlarmClock v-if="alarmclock.enabled" />
         <TSettings />
       </div>
