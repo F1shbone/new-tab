@@ -5,12 +5,13 @@ const VERSION = 2
 
 export type Bookmarks = {
   VERSION: number
-  groups: Array<{
-    id: string
-    name: string
-    showName: boolean
-    bookmarks: Array<Bookmark>
-  }>
+  groups: Array<BookmarkGroup>
+}
+export type BookmarkGroup = {
+  id: string
+  name: string
+  showName: boolean
+  bookmarks: Array<Bookmark>
 }
 export type Bookmark = {
   id: string

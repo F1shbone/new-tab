@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { UNKNOWN_FAVICON } from '@/composables/useRemoteFavicon'
+
 withDefaults(
   defineProps<{
     name: string
-    icon: string
+    icon?: string
     element?: string
     mode?: 'light' | 'dark'
     invert?: boolean
@@ -11,6 +13,7 @@ withDefaults(
   {
     element: () => 'a',
     mode: 'light',
+    icon: UNKNOWN_FAVICON,
   },
 )
 </script>

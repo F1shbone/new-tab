@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { isRef, ref, toRaw, type MaybeRef } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { nanoid } from 'nanoid'
 import {
   RiLayoutGridFill,
   RiBookmarkFill,
@@ -16,44 +15,57 @@ import TTextInput from '@/components/TTextInput.vue'
 import TBookmark from '@/components/TBookmark.vue'
 import TModal from '@/components/TModal.vue'
 
-import { type Bookmark, useBookmarks } from '@/composables/useBookmarks'
+import NewBookmarkGroup from './NewBookmarkGroup.vue'
+import EditBookmarks from './EditBookmarks.vue'
+
+import { type Bookmark, type BookmarkGroup, useBookmarks } from '@/composables/useBookmarks'
+import NewBookmarks from './NewBookmarks.vue'
 
 function clone<T>(obj: T) {
-  return JSON.parse(JSON.stringify(obj))
+  return structuredClone<T>(toRaw(obj))
 }
 
 const { bookmarks } = useBookmarks()
+
+//#region New Group Modal
+const newGroupModal = ref(false)
+function createGroup(group: BookmarkGroup) {
+  bookmarks.value.groups.push(group)
+  newGroupModal.value = false
+}
+//#endregion
 
 //#region Edit Bookmark Modal
 const editBookmarkModal = ref<{ visible: boolean; groupId?: string; bookmark?: Bookmark }>({
   visible: false,
 })
-function overwriteBookmark(groupId: string, newBookmark: Bookmark) {
-  const groupIndex = bookmarks.value.groups.findIndex((g) => g.id === groupId)
+function overwriteBookmark(newBookmark: Bookmark) {
+  const groupIndex = bookmarks.value.groups.findIndex(
+    (g) => g.id === editBookmarkModal.value.groupId,
+  )
   const index = bookmarks.value.groups[groupIndex].bookmarks.findIndex(
     (b) => b.id === newBookmark.id,
   )
+
+  if (groupIndex === -1 || index === -1) return
 
   bookmarks.value.groups[groupIndex].bookmarks[index] = newBookmark
   editBookmarkModal.value = { visible: false }
 }
 //#endregion
 
-//#region New Group Modal
-const newGroupModal = ref<{ visible: boolean; name?: string }>({ visible: false })
-function createGroup(name: string) {
-  bookmarks.value.groups.push({
-    id: nanoid(),
-    name,
-    showName: false,
-    bookmarks: [],
-  })
-  newGroupModal.value = { visible: false }
-}
-//#endregion
-
 //#region Add Bookmark Modal
-const newBookmarkModal = ref<{ visible: boolean; bookmark?: Bookmark }>({ visible: false })
+const newBookmarkModal = ref<{ visible: boolean; groupId?: string }>({ visible: false })
+function createBookmark(newBookmark: Bookmark) {
+  const groupIndex = bookmarks.value.groups.findIndex(
+    (g) => g.id === newBookmarkModal.value.groupId,
+  )
+
+  if (groupIndex === -1) return
+
+  bookmarks.value.groups[groupIndex].bookmarks.push(newBookmark)
+  newBookmarkModal.value = { visible: false }
+}
 //#endregion
 </script>
 
@@ -65,6 +77,7 @@ const newBookmarkModal = ref<{ visible: boolean; bookmark?: Bookmark }>({ visibl
       <h4 class="font-thin tracking-tight text-gray-600 uppercase">{{ group.name }}</h4>
       <TButton variant="link" square size="sm"><RiPencilFill /></TButton>
       <TButton
+        v-if="i > 0"
         variant="link"
         square
         size="sm"
@@ -75,7 +88,12 @@ const newBookmarkModal = ref<{ visible: boolean; bookmark?: Bookmark }>({ visibl
       </TButton>
       <TCheckbox name="group1-name" hover tight v-model="group.showName">Show Name</TCheckbox>
     </div>
-    <VueDraggable v-model="group.bookmarks" handle=".drag-handle" class="flex flex-wrap gap-1">
+    <VueDraggable
+      v-model="group.bookmarks"
+      group="bookmarks"
+      handle=".drag-handle"
+      class="flex flex-wrap gap-1"
+    >
       <div v-for="(bookmark, i) in group.bookmarks" :key="i" class="relative group">
         <TBookmark
           :name="bookmark.name"
@@ -113,12 +131,7 @@ const newBookmarkModal = ref<{ visible: boolean; bookmark?: Bookmark }>({ visibl
   </div>
 
   <div class="flex gap-4">
-    <TButton
-      block
-      size="lg"
-      variant="secondary"
-      @click="newGroupModal = { visible: true, name: '' }"
-    >
+    <TButton block size="lg" variant="secondary" @click="newGroupModal = true">
       <RiLayoutGridFill class="w-5 h-5" /> Add Group
     </TButton>
     <TButton
@@ -127,104 +140,21 @@ const newBookmarkModal = ref<{ visible: boolean; bookmark?: Bookmark }>({ visibl
       @click="
         newBookmarkModal = {
           visible: true,
-          bookmark: {
-            id: nanoid(),
-            name: '',
-            url: '',
-            favicon: '',
-            invert: false,
-          },
+          groupId: bookmarks.groups[0].id,
         }
       "
       ><RiBookmarkFill class="w-5 h-5" /> New Bookmark</TButton
     >
   </div>
 
-  <TModal
-    :isOpen="editBookmarkModal.visible"
-    size="sm"
-    @close="editBookmarkModal = { visible: false }"
-  >
-    <template #title>Edit "{{ editBookmarkModal.bookmark?.name }}"</template>
-    <template #content v-if="editBookmarkModal.bookmark">
-      <div class="flex gap-4">
-        <TBookmark
-          element="div"
-          :name="editBookmarkModal.bookmark.name"
-          :href="editBookmarkModal.bookmark.url"
-          :icon="editBookmarkModal.bookmark.favicon"
-          :invert="editBookmarkModal.bookmark.invert"
-        />
-        <div>
-          <TTextInput v-model="editBookmarkModal.bookmark.name" labelClass="w-24">Name:</TTextInput>
-          <TTextInput v-model="editBookmarkModal.bookmark.url" labelClass="w-24">URL:</TTextInput>
-          <TCheckbox
-            v-model="editBookmarkModal.bookmark.invert"
-            reverse
-            hover
-            labelClass="w-24"
-            flush
-            class="py-2"
-            >Invert:</TCheckbox
-          >
-        </div>
-      </div>
-    </template>
-    <template #action-buttons v-if="editBookmarkModal.groupId && editBookmarkModal.bookmark">
-      <TButton
-        block
-        @click="overwriteBookmark(editBookmarkModal.groupId, editBookmarkModal.bookmark)"
-        >Save</TButton
-      >
-      <TButton block variant="link" @click="editBookmarkModal = { visible: false }">Cancel</TButton>
-    </template>
-  </TModal>
+  <NewBookmarkGroup v-model:visible="newGroupModal" @createGroup="createGroup" />
 
-  <TModal :isOpen="newGroupModal.visible" size="sm" @close="newGroupModal = { visible: false }">
-    <template #title>Add new Group</template>
-    <template #content v-if="newGroupModal.name !== undefined">
-      <TTextInput v-model="newGroupModal.name" labelClass="w-24">Name:</TTextInput>
-      <Transition>
-        <span v-if="newGroupModal.name === ''" class="text-sm text-red-500"
-          >Name cannot be empty</span
-        >
-      </Transition>
-    </template>
-    <template #action-buttons v-if="newGroupModal.name !== undefined">
-      <TButton block :disabled="newGroupModal.name === ''" @click="createGroup(newGroupModal.name)"
-        >Save</TButton
-      >
-      <TButton block variant="link" @click="newGroupModal = { visible: false }">Cancel</TButton>
-    </template>
-  </TModal>
+  <EditBookmarks
+    v-if="editBookmarkModal.bookmark"
+    v-model:visible="editBookmarkModal.visible"
+    :bookmark="editBookmarkModal.bookmark"
+    @update="(val) => overwriteBookmark(val)"
+  />
 
-  <TModal
-    :isOpen="newBookmarkModal.visible"
-    size="sm"
-    @close="newBookmarkModal = { visible: false }"
-  >
-    <template #title>New Bookmark</template>
-    <template #content v-if="newBookmarkModal.bookmark">
-      <TTextInput v-model="newBookmarkModal.bookmark.name" labelClass="w-24">Name:</TTextInput>
-      <Transition>
-        <span v-if="newBookmarkModal.bookmark.name === ''" class="text-sm text-red-500"
-          >Name cannot be empty</span
-        >
-      </Transition>
-      <TTextInput v-model="newBookmarkModal.bookmark.url" labelClass="w-24">URL:</TTextInput>
-      <TCheckbox
-        v-model="newBookmarkModal.bookmark.invert"
-        reverse
-        hover
-        labelClass="w-24"
-        flush
-        class="py-2"
-        >Invert:</TCheckbox
-      >
-    </template>
-    <template #action-buttons v-if="newBookmarkModal.bookmark">
-      <TButton block :disabled="newBookmarkModal.bookmark.name === ''">Save</TButton>
-      <TButton block variant="link" @click="newBookmarkModal = { visible: false }">Cancel</TButton>
-    </template>
-  </TModal>
+  <NewBookmarks v-model:visible="newBookmarkModal.visible" @create="(val) => createBookmark(val)" />
 </template>
